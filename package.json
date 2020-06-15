@@ -1,0 +1,54 @@
+{
+  "name": "remark-mermaid-dataurl",
+  "version": "1.0.0",
+  "description": "A remark plugin for Markdown that replaces mermaid graphs with dataurls",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "npx eslint test/ index.js"
+  },
+  "engines": {
+    "node": "^10.17.0"
+  },
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aloisklink/remark-mermaid-dataurl.git"
+  },
+  "keywords": [
+    "mermaidjs",
+    "remark-plugin"
+  ],
+  "author": "Alois Klink <alois.klink@gmail.com> (https://aloisklink.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aloisklink/remark-mermaid-dataurl/issues"
+  },
+  "homepage": "https://github.com/aloisklink/remark-mermaid-dataurl#readme",
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "^8.5.1-2",
+    "unist-util-visit": "^2.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "lint-staged": "^10.2.10",
+    "prettier": "^2.0.5",
+    "remark": "^12.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{md,yaml,yml,json,css,mdx}": "prettier --write"
+  }
+}
