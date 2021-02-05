@@ -3,6 +3,8 @@ const remark = require("remark");
 
 const remarkMermaidDataurl = require("../index.js");
 
+jest.setTimeout(30000); // 30 seconds since mermaid-cli is slow
+
 describe("test markdown files", () => {
   let remarkProcessor;
 
