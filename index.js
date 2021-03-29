@@ -79,16 +79,6 @@ function renderMermaidFile(kwargs, input) {
   });
 }
 
-/**
- * Creates an SVG from the given mermaid input text.
- * @param {string} inputText The mermaid text to render.
- * @param {Object} mermaidCliOptions Options to pass to mermaid-cli
- * @returns {Promise<string>} The contents of the rendered SVG file.
- */
-async function renderMermaidText(inputText, mermaidCliOptions) {
-  return renderMermaidFile(mermaidCliOptions, inputText);
-}
-
 /** Converts a string to a base64 string */
 function btoa(string) {
   return Buffer.from(string).toString("base64");
