@@ -30,7 +30,7 @@ process.on("message", (volumeJSON) => {
         process.send(virtualVolume.toJSON());
       },
       writeFile: callbackify((...args) => {
-        virtualVolume.writeFileSync(...args.slice(0, -1));
+        virtualVolume.writeFileSync(...args);
         process.send(virtualVolume.toJSON());
         return Promise.resolve();
       }),
