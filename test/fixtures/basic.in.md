@@ -1,8 +1,12 @@
-# Basic Markdown Example
+# Basic Markdown Examples
 
 ```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
+stateDiagram-v2
+    [*] --> Still
+    Still --> [*]
+    Still --> Moving
+    Moving --> Still
+    Moving --> Crash
+    Crash --> [*]
+            
 ```

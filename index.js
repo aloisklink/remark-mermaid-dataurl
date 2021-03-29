@@ -1,6 +1,7 @@
-const fs = require("fs");
+require("core-js/features/object/entries");
+require("core-js/features/array/flat-map");
+const { Volume } = require("memfs");
 const childProcess = require("child_process");
-const os = require("os");
 const path = require("path");
 
 const visit = require("unist-util-visit");
@@ -8,41 +9,51 @@ const mmdc = require.resolve("@mermaid-js/mermaid-cli/index.bundle.js");
 
 const PLUGIN_NAME = "remark-mermaid-dataurl";
 
-/**
- * Deletes a folder, (essentially does `rmdir(tmpdir, {recursive: true})`)
- *
- * We can't use rmdir(p, {recursive: true}) since it isn't fully supported
- * in Node.Js yet.
- * @param {string} tmpdir The directory to delete
- */
-async function cleanup(tmpdir) {
-  const files = await fs.promises.readdir(tmpdir);
-  await Promise.all(
-    files.map((file) => {
-      return fs.promises.unlink(path.join(tmpdir, file));
-    })
-  );
-  await fs.promises.rmdir(tmpdir);
-}
+const createVolume = () => {
+  const volume = new Volume();
+  volume.mkdirSync(process.cwd(), { recursive: true });
+  return volume;
+};
 
 /**
  * Calls mmdc (mermaid-cli) with the given keyword args
  * @param {{[key: string]: any}} kwargs
  *   Args passed to mmdc in format `--key value`
+ * @param {string} input input file contents
  * @returns {Promise<void, Error>}
  */
-async function renderMermaidFile(kwargs) {
-  const argPairs = Object.keys(kwargs).map((key) => [`--${key}`, kwargs[key]]);
-  const args = [].concat(...argPairs); // flatten
-  const process = childProcess.fork(mmdc, args, { silent: true });
+function renderMermaidFile(kwargs, input) {
+  const volume = createVolume();
+  const cwd = process.cwd();
+  const outputPath = path.join(cwd, "output.svg");
+  const inputPath = path.join(cwd, "input");
+  volume.writeFileSync(inputPath, input, "utf8");
+
+  const args = Object.entries({
+    ...kwargs,
+    input: inputPath,
+    output: outputPath,
+  }).flatMap(([key, value]) => [`--${key}`, value]);
+  const child_process = childProcess.fork(
+    require.resolve("./mermaid_hook"),
+    args,
+    {}
+  );
+  child_process.send(volume.toJSON());
 
   return new Promise((resolve, reject) => {
     let exited = false; // stream may error AND exit
-    process.on("error", (error) => {
+    child_process.on("message", (volumeJSON) => {
+      exited = true;
+      child_process.kill();
+      volume.fromJSON(volumeJSON);
+      resolve(volume.promises.readFile(outputPath, { encoding: "utf8" }));
+    });
+    child_process.on("error", (error) => {
       exited = true;
       reject(error);
     });
-    process.on("exit", (code, signal) => {
+    child_process.on("exit", (code, signal) => {
       if (exited) {
         return; // already resolved Promise
       }
@@ -64,7 +75,6 @@ async function renderMermaidFile(kwargs) {
           )
         );
       }
-      resolve();
     });
   });
 }
@@ -76,22 +86,7 @@ async function renderMermaidFile(kwargs) {
  * @returns {Promise<string>} The contents of the rendered SVG file.
  */
 async function renderMermaidText(inputText, mermaidCliOptions) {
-  const tmpdir = await fs.promises.mkdtemp(
-    path.join(os.tmpdir(), "remark-mermaid-")
-  );
-  const inputPath = path.join(tmpdir, "input");
-  const outputPath = path.join(tmpdir, "output.svg");
-  try {
-    await fs.promises.writeFile(inputPath, inputText, { encoding: "utf8" });
-    await renderMermaidFile({
-      ...mermaidCliOptions,
-      input: inputPath,
-      output: outputPath,
-    });
-    return await fs.promises.readFile(outputPath, { encoding: "utf8" });
-  } finally {
-    await cleanup(tmpdir);
-  }
+  return renderMermaidFile(mermaidCliOptions, inputText);
 }
 
 /** Converts a string to a base64 string */
@@ -110,7 +105,7 @@ function dataUrl(data, mimeType, base64 = false) {
 async function transformMermaidNode(node, file, index, parent, { mermaidCli }) {
   const { lang, value, position } = node;
   try {
-    const data = await renderMermaidText(value, mermaidCli);
+    const data = await renderMermaidFile(mermaidCli, value);
     const newNode = {
       type: "image",
       title: "Diagram generated via mermaid",
