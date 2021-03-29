@@ -41,7 +41,10 @@ describe("test markdown files", () => {
     const screenshot = await page.screenshot();
     await browser.close();
     expect(screenshot).toMatchImageSnapshot({
-      dumpInlineDiffToConsole: true,
+      // only enable inline diff for GitHub Actions or CI
+      // if it's on a local PC, we can just open up the file
+      dumpInlineDiffToConsole: process.env["CI"],
+      blur: 2,
     });
   });
 });
