@@ -17,7 +17,7 @@ const patch_fs = (fs, volume, methods = []) => {
   };
 };
 
-process.on("message", (volumeJSON) => {
+process.once("message", function (volumeJSON) {
   const virtualVolume = Volume.fromJSON(volumeJSON);
   virtualVolume.mkdirSync(process.cwd(), { recursive: true });
   const existsSync = fs.existsSync.bind(fs);
