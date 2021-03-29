@@ -1,4 +1,4 @@
-# Basic Markdown Examples
+# Basic Markdown Example
 
 ```mermaid
 stateDiagram-v2
