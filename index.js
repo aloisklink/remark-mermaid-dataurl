@@ -29,6 +29,16 @@ function renderMermaidFile(kwargs, input) {
   const inputPath = path.join(cwd, "input");
   volume.writeFileSync(inputPath, input, "utf8");
 
+  if (kwargs.configFile && typeof kwargs.configFile === "object") {
+    const configFilePath = path.join(cwd, "config.json");
+    volume.writeFileSync(
+      configFilePath,
+      JSON.stringify(kwargs.configFile),
+      "utf8"
+    );
+    kwargs = { ...kwargs, configFile: configFilePath };
+  }
+
   const args = Object.entries({
     ...kwargs,
     input: inputPath,
@@ -113,7 +123,11 @@ async function transformMermaidNode(node, file, index, parent, { mermaidCli }) {
 /**
  * Remark plugin that converts mermaid codeblocks into self-contained SVG dataurls.
  * @param {Object} options
- * @param {Obejct} options.mermaidCli Options to pass to mermaid-cli
+ * @param {Object} options.mermaidCli Options to pass to mermaid-cli
+ * @param {Object | string} [options.mermaidCli.configFile] - If set, a path to
+ * a JSON configuration file for mermaid.
+ * If this is an object, it will be automatically converted to a JSON config
+ * file and passed to mermaid-cli.
  */
 function remarkMermaid({ mermaidCli = {} } = {}) {
   const options = { mermaidCli };

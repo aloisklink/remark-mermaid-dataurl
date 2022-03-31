@@ -20,8 +20,12 @@ const patch_fs = (fs, volume, methods = []) => {
 process.once("message", function (volumeJSON) {
   const virtualVolume = Volume.fromJSON(volumeJSON);
   virtualVolume.mkdirSync(process.cwd(), { recursive: true });
+
+  // bind these functions to the original unpatched fs
   const existsSync = fs.existsSync.bind(fs);
   const readFile = fs.readFile.bind(fs);
+  const readFileSync = fs.readFileSync.bind(fs);
+
   patch_fs(
     fs,
     {
@@ -43,8 +47,14 @@ process.once("message", function (volumeJSON) {
         }
         readFile(path, opts, cb);
       },
+      readFileSync: (path, opts) => {
+        if (virtualVolume.existsSync(path)) {
+          return virtualVolume.readFileSync(path, opts);
+        }
+        return readFileSync(path, opts);
+      },
     },
-    ["writeFileSync", "existsSync", "readFile", "writeFile"]
+    ["writeFileSync", "existsSync", "readFile", "writeFile", "readFileSync"]
   );
 
   require(mermaid_cli);
