@@ -7,6 +7,8 @@ const path = require("path");
 const visit = require("unist-util-visit");
 const mmdc = require.resolve("@mermaid-js/mermaid-cli/index.bundle.js");
 
+const { setSvgBbox } = require("./src/svg.js");
+
 const PLUGIN_NAME = "remark-mermaid-dataurl";
 
 const createVolume = () => {
@@ -105,11 +107,15 @@ function dataUrl(data, mimeType, base64 = false) {
 async function transformMermaidNode(node, file, index, parent, { mermaidCli }) {
   const { lang, value, position } = node;
   try {
-    const data = await renderMermaidFile(mermaidCli, value);
+    let svgString = await renderMermaidFile(mermaidCli, value);
+    // replace width=100% with actual width in px
+    svgString = setSvgBbox(svgString);
+
     const newNode = {
       type: "image",
       title: "Diagram generated via mermaid",
-      url: dataUrl(data, "image/svg+xml;charset=UTF-8"),
+      url: dataUrl(svgString, "image/svg+xml;charset=UTF-8"),
+      alt: "Diagram generated via mermaid",
     };
 
     file.info(`${lang} code block replaced with graph`, position, PLUGIN_NAME);

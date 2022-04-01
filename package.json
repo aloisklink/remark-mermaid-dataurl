@@ -12,7 +12,8 @@
   },
   "files": [
     "index.js",
-    "mermaid_hook.js"
+    "mermaid_hook.js",
+    "src/"
   ],
   "repository": {
     "type": "git",
@@ -30,8 +31,10 @@
   "homepage": "https://github.com/aloisklink/remark-mermaid-dataurl#readme",
   "dependencies": {
     "@mermaid-js/mermaid-cli": "^8.9.2",
+    "@svgdotjs/svg.js": "^3.1.2",
     "core-js": "^3.9.1",
     "memfs": "^3.2.0",
+    "svgdom": "^0.1.10",
     "unist-util-visit": "^2.0.3"
   },
   "devDependencies": {
