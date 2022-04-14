@@ -78,4 +78,15 @@ describe("test markdown files", () => {
   test("should render basic.md visually", async () => {
     await testScreenshotSnapshot("test/fixtures/basic.in.md");
   });
+
+  test("should render git graphs correctly", async () => {
+    await renderWithRemark(
+      "test/fixtures/gitgraph.in.md",
+      "test/fixtures/gitgraph.out.md"
+    );
+  });
+
+  test("should render git graphs visually", async () => {
+    await testScreenshotSnapshot("test/fixtures/gitgraph.in.md");
+  });
 });
