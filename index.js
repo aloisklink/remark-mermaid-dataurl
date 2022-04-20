@@ -77,13 +77,22 @@ function renderMermaidFile(kwargs, input) {
             )} failed with error code: ${code}`
           )
         );
-      }
-      if (signal) {
+      } else if (signal) {
         reject(
           new Error(
             `${mmdc} with kwargs ${JSON.stringify(
               kwargs
             )} recieved signal ${signal}`
+          )
+        );
+      } else {
+        // Mermaid-CLI throws unhandledRejection warnings
+        // which sometimes return exit code 0
+        reject(
+          new Error(
+            `${mmdc} with kwargs ${JSON.stringify(
+              kwargs
+            )} exited without returning created SVG.`
           )
         );
       }

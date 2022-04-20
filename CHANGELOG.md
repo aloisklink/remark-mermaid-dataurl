@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix wide SVGs (e.g. gitgraphs) being cut at 300px.
   Automatically replaces SVG `width=100%` to the width in pixels.
   Most browsers will cut SVGs to 300px. (closes [#7](https://github.com/aloisklink/remark-mermaid-dataurl/issues/7))
+- An error is now thrown if mermaid-cli fails to render an SVG.
+  Previously, the `Promise` returned by `renderMermaidFile` would stall forever
+  if `mermaid-cli` exited without an error code, and without rendering an SVG.
 
 ## [1.0.2] - 2021-03-29
 
