@@ -55,11 +55,21 @@ function renderMermaidFile(kwargs, input) {
 
   return new Promise((resolve, reject) => {
     let exited = false; // stream may error AND exit
-    child_process.on("message", (volumeJSON) => {
+    child_process.on("message", (message) => {
       exited = true;
       child_process.kill();
-      volume.fromJSON(volumeJSON);
-      resolve(volume.promises.readFile(outputPath, { encoding: "utf8" }));
+      if (message.error) {
+        reject(
+          new Error(
+            `${mmdc} with kwargs ${JSON.stringify(kwargs)} failed with error: ${
+              message.error
+            }`
+          )
+        );
+      } else {
+        volume.fromJSON(message);
+        resolve(volume.promises.readFile(outputPath, { encoding: "utf8" }));
+      }
     });
     child_process.on("error", (error) => {
       exited = true;
