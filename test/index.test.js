@@ -89,4 +89,20 @@ describe("test markdown files", () => {
   test("should render git graphs visually", async () => {
     await testScreenshotSnapshot("test/fixtures/gitgraph.in.md");
   });
+
+  test.only("should use puppeteer config", async () => {
+    await expect(
+      renderWithRemark(
+        "test/fixtures/gitgraph.in.md",
+        "test/fixtures/should-never-happen.out.md",
+        {
+          mermaidCli: {
+            puppeteerConfigFile: {
+              timeout: 1, // should fail
+            },
+          },
+        }
+      )
+    ).rejects.toThrow("TimeoutError");
+  });
 });

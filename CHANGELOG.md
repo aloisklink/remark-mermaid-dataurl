@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Allow passing in a mermaid `configFile` as an object to `mermaid-cli`.
+- Allow passing in a puppeteer `puppeteerConfigFile` as an object to `mermaid-cli`.
+  This allows increasing puppeteer's timeout, or using `firefox` instead of `chrome`.
 
 ### Fixed
 

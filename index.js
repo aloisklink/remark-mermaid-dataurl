@@ -40,6 +40,18 @@ function renderMermaidFile(kwargs, input) {
     );
     kwargs = { ...kwargs, configFile: configFilePath };
   }
+  if (
+    kwargs.puppeteerConfigFile &&
+    typeof kwargs.puppeteerConfigFile === "object"
+  ) {
+    const puppeteerConfigFilePath = path.join(cwd, "puppeteerConfigFile.json");
+    volume.writeFileSync(
+      puppeteerConfigFilePath,
+      JSON.stringify(kwargs.puppeteerConfigFile),
+      "utf8"
+    );
+    kwargs = { ...kwargs, puppeteerConfigFile: puppeteerConfigFilePath };
+  }
 
   const args = Object.entries({
     ...kwargs,
@@ -151,6 +163,10 @@ async function transformMermaidNode(node, file, index, parent, { mermaidCli }) {
  * @param {Object} options.mermaidCli Options to pass to mermaid-cli
  * @param {Object | string} [options.mermaidCli.configFile] - If set, a path to
  * a JSON configuration file for mermaid.
+ * If this is an object, it will be automatically converted to a JSON config
+ * file and passed to mermaid-cli.
+ * @param {import("puppeteer").LaunchOptions | string} [options.mermaidCli.puppeteerConfigFile] - If set,
+ * a path to a JSON configuration file for mermaid CLI's puppeteer instance.
  * If this is an object, it will be automatically converted to a JSON config
  * file and passed to mermaid-cli.
  */
