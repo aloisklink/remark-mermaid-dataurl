@@ -12,6 +12,16 @@ const remarkMermaidDataurl = require("../index.js");
 expect.extend({ toMatchImageSnapshot });
 jest.setTimeout(30000); // 30 seconds since mermaid-cli is slow
 
+/**
+ * Renders a markdown file through `remark-markdown-dataurl`.
+ *
+ * This is a markdown -> markdown conversion.
+ *
+ * @param {string} inputFileName - Path to input markdown file.
+ * @param {string} outputFileName - Path to output markdown file.
+ * @param {Parameters<remarkMermaidDataurl>[0]} remarkOptions - Options for
+ * `remark-data-url`.
+ */
 async function renderWithRemark(
   inputFileName,
   outputFileName,
