@@ -48,7 +48,7 @@ async function renderWithRemark(
  * @param {object} [opts] - Optional options.
  * @param {Parameters<remarkMermaidDataurl>[0]} [opts.remarkOptions] - Options to pass
  * to `remark-mermaid-dataurl`.
- * @param {array} [css] - Array of CSS options. E.g. `['img.svg { width: 100%; height: auto; }']`
+ * @param {array} [opts.css] - Array of CSS options. E.g. `['img.svg { width: 100%; height: auto; }']`
  */
 async function testScreenshotSnapshot(
   inputFileName,
