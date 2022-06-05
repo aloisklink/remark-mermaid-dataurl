@@ -46,16 +46,21 @@ async function renderWithRemark(
  *
  * @param {string} inputFileName - Filename to markdown file to render.
  * @param {object} [opts] - Optional options.
+ * @param {Parameters<remarkMermaidDataurl>[0]} [opts.remarkOptions] - Options to pass
+ * to `remark-mermaid-dataurl`.
  * @param {array} [css] - Array of CSS options. E.g. `['img.svg { width: 100%; height: auto; }']`
  */
-async function testScreenshotSnapshot(inputFileName, { css = [] } = {}) {
+async function testScreenshotSnapshot(
+  inputFileName,
+  { remarkOptions = {}, css = [] } = {}
+) {
   const infile = fs.promises.readFile(inputFileName, {
     encoding: "utf8",
   });
 
   const htmlFile = (
     await remark()
-      .use(remarkMermaidDataurl)
+      .use(remarkMermaidDataurl, remarkOptions)
       .use(remark2rehype)
       .use(doc, { style: css })
       .use(html)
