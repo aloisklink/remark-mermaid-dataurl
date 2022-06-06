@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Dependencies
 
 - Updated `husky` to v6.0.0 (v7.0.0 held back due to Node v10 support)
+- Limit `mermaid-cli` version to `<=8.10.1`.
+  This is because [mermaid-cli 8.10.2](https://github.com/mermaid-js/mermaid-cli/releases/tag/8.10.2)
+  upgrades to [puppeteer v10.0.0](https://github.com/mermaid-js/mermaid-cli/pull/128),
+  which drops Node v10 support.
 
 ## [1.0.2] - 2021-03-29
 
