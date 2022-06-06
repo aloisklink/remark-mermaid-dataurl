@@ -1,5 +1,3 @@
-require("core-js/features/object/entries");
-require("core-js/features/array/flat-map");
 const { Volume } = require("memfs");
 const childProcess = require("child_process");
 const path = require("path");
@@ -53,11 +51,14 @@ function renderMermaidFile(kwargs, input) {
     kwargs = { ...kwargs, puppeteerConfigFile: puppeteerConfigFilePath };
   }
 
-  const args = Object.entries({
-    ...kwargs,
-    input: inputPath,
-    output: outputPath,
-  }).flatMap(([key, value]) => [`--${key}`, value]);
+  // Array.flatMap() was only added in NodeJS v11
+  const args = [].concat(
+    ...Object.entries({
+      ...kwargs,
+      input: inputPath,
+      output: outputPath,
+    }).map(([key, value]) => [`--${key}`, value])
+  );
   const child_process = childProcess.fork(
     require.resolve("./mermaid_hook"),
     args,

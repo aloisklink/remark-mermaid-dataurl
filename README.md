@@ -1,5 +1,9 @@
 # remark-mermaid-dataurl
 
+![npm](https://img.shields.io/npm/v/remark-mermaid-dataurl)
+![NPM](https://img.shields.io/npm/l/remark-mermaid-dataurl)
+![node-current](https://img.shields.io/node/v/remark-mermaid-dataurl)
+
 A remark plugin for Markdown that replaces mermaid graphs with dataurls
 
 Designed for use with Docusaurus v2.
