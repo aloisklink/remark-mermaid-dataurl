@@ -105,7 +105,7 @@ describe("test markdown files", () => {
     await testScreenshotSnapshot("test/fixtures/gitgraph.in.md");
   });
 
-  test.only("should use puppeteer config", async () => {
+  test("should use puppeteer config", async () => {
     await expect(
       renderWithRemark(
         "test/fixtures/gitgraph.in.md",
