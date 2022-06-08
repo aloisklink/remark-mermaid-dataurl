@@ -120,4 +120,16 @@ describe("test markdown files", () => {
       )
     ).rejects.toThrow("TimeoutError");
   });
+
+  test("should use mermaid-cli to use forest theme", async () => {
+    await testScreenshotSnapshot("test/fixtures/basic.in.md", {
+      remarkOptions: {
+        mermaidCli: {
+          configFile: {
+            theme: "forest",
+          },
+        },
+      },
+    });
+  });
 });
