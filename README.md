@@ -1,8 +1,8 @@
 # remark-mermaid-dataurl
 
-![npm](https://img.shields.io/npm/v/remark-mermaid-dataurl)
-![NPM](https://img.shields.io/npm/l/remark-mermaid-dataurl)
-![node-current](https://img.shields.io/node/v/remark-mermaid-dataurl)
+[![npm version badge](https://img.shields.io/npm/v/remark-mermaid-dataurl)](https://www.npmjs.com/package/remark-mermaid-dataurl)
+[![license badge](https://img.shields.io/npm/l/remark-mermaid-dataurl)](https://www.npmjs.com/package/remark-mermaid-dataurl)
+[![node version support badge](https://img.shields.io/node/v/remark-mermaid-dataurl)](https://www.npmjs.com/package/remark-mermaid-dataurl)
 
 A [remark markdown](https://github.com/remarkjs/remark)
 plugin that renders mermaid markdown code into SVG
@@ -18,8 +18,11 @@ Alternatives:
 
 ## Example
 
+Write your mermaid code in markdown using within code-blocks that start with
+` ```mermaid`, as in below:
+
 ````markdown
-Here is my **example** mermaid diagram:
+Here is my **example** mermaid diagram in markdown:
 
 ```mermaid
 stateDiagram-v2
@@ -36,10 +39,10 @@ After running `remark-mermaid-dataurl`, the mermaid diagram within the ` ```merm
 code block will be rendered into an SVG file, then inserted into the markdown
 code as a
 [dataurl](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)
-(dataurl is truncated, as they are quite large):
+(dataurl is truncated in the example, as they are quite large):
 
 ````markdown
-Here is my **example** mermaid diagram:
+Here is my **example** mermaid diagram in markdown:
 
 ![Diagram generated via mermaid](data:image/svg+xml;charset=UTF-8,%3Csvg%20id%3D%22mermaid-1654...]
 ````
@@ -52,7 +55,7 @@ const options = {
     // args to pass as `--arg value` to mermaidCli (run `npx mmdc --help` to view)
     // passing configFile or puppeteerConfigFile as an object will automatically be converted into a JSON
     configFile: {
-      // see options at https://mermaid-js.github.io/mermaid/#/Setup
+      // see mermaid options at https://mermaid-js.github.io/mermaid/#/Setup
       theme: "forest",
     },
     puppeteerConfigFile: {
@@ -95,3 +98,7 @@ module.exports = {
   ],
 };
 ```
+
+Afterwards, any ` ```markdown ` code blocks in your docusaurus docs folder
+should automatically be converted into SVGs data URLs when running
+`npx docusaurus start` or `npx docusuarus serve`.
