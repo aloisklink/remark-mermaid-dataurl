@@ -4,9 +4,17 @@
 ![NPM](https://img.shields.io/npm/l/remark-mermaid-dataurl)
 ![node-current](https://img.shields.io/node/v/remark-mermaid-dataurl)
 
-A remark plugin for Markdown that replaces mermaid graphs with dataurls
+A [remark markdown](https://github.com/remarkjs/remark)
+plugin that renders mermaid markdown code into SVG
+[data URLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)
+using [mermaid-cli](https://github.com/mermaid-js/mermaid-cli).
 
 Designed for use with Docusaurus v2.
+
+Alternatives:
+  - If you're using MDX (not plain markdown),
+    [mdx-mermaid](https://github.com/sjwall/mdx-mermaid) renders mermaid
+    on the client's browser, which may offer better network performance.
 
 ## Example
 
