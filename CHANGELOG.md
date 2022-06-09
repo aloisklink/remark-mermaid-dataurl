@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10] - 2022-06-09
+
 ### Added
 
 - Allow passing in a mermaid `configFile` as an object to `mermaid-cli`.

@@ -1,6 +1,6 @@
 {
   "name": "remark-mermaid-dataurl",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A remark plugin for Markdown that replaces mermaid graphs with dataurls",
   "main": "index.js",
   "scripts": {
