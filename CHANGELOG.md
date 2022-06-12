@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Breaking Changes
 
+- NodeJS 14.1 is the minimum supported version
 - The minimum version of `mermaid-cli` has been bumped to `^9.1.2`.
   This has caused the following **BREAKING CHANGES**:
   - `mermaid` is now version `^9.0.0`
