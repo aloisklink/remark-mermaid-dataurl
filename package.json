@@ -46,7 +46,7 @@
     "jest-image-snapshot": "^4.4.0",
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
-    "puppeteer": "^9.1.1",
+    "puppeteer": "^14.1.0",
     "rehype-document": "^5.1.0",
     "rehype-stringify": "^8.0.0",
     "remark": "^13.0.0",
