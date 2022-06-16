@@ -5,7 +5,7 @@ const path = require("path");
 const visit = require("unist-util-visit");
 const mmdc = require.resolve("@mermaid-js/mermaid-cli/index.bundle.js");
 
-const { setSvgBbox } = require("./src/svg.js");
+const { setSvgBbox, validSVG } = require("./src/svg.js");
 
 const PLUGIN_NAME = "remark-mermaid-dataurl";
 
@@ -140,6 +140,10 @@ async function transformMermaidNode(node, file, index, parent, { mermaidCli }) {
   const { lang, value, position } = node;
   try {
     let svgString = await renderMermaidFile(mermaidCli, value);
+
+    // attempts to convert the whatever mermaid-cli returned into a valid SVG
+    // or throws an error if it can't
+    svgString = validSVG(svgString);
     // replace width=100% with actual width in px
     svgString = setSvgBbox(svgString);
 

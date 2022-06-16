@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Tries to automatically fix invalid SVGs returned by `mermaid-cli`.
+  Somtimes `mermaid-cli` returns an SVG wrapped in a `<div>`, which caused a
+  confusing error to occur.
+
 ## [1.10] - 2022-06-09
 
 ### Added
