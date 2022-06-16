@@ -12,6 +12,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tries to automatically fix invalid SVGs returned by `mermaid-cli`.
   Somtimes `mermaid-cli` returns an SVG wrapped in a `<div>`, which caused a
   confusing error to occur.
+- Allow `@mermaid-js/mermaid-cli` version to be `^8.10.1`
+  (fixes `[#20](https://github.com/aloisklink/remark-mermaid-dataurl/issues/20))
+
+  In `v1.10`, we limited `@mermaid-js/mermaid-cli` to be <=8.10.1, as 8.10.2 officially
+  dropped Node v10 support.
+  However, this causes breaking changes for people using mermaid 8.10.2+ features.
+
+## Deprecated
+
+- Our `dependencies` contain `"@mermaid-js/mermaid-cli":  ^8.9.2"`, however v8.10.2 of mermaid-cli
+  updated to [puppeteer v10.0.0](https://github.com/mermaid-js/mermaid-cli/pull/128),
+  which officially dropped Node v10 support. However, it still seems to work with Node v10,
+  it's just unsupported.
+
+  If you encounter issues while running on Node v10, please pin `remark-mermaid-dataurl` to
+  `1.1.0`.
 
 ## [1.10] - 2022-06-09
 
