@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   If you encounter issues while running on Node v10, please pin `remark-mermaid-dataurl` to
   `1.1.0`.
 
-## [1.10] - 2022-06-09
+## [1.1.0] - 2022-06-09
 
 ### Added
 
