@@ -105,6 +105,17 @@ describe("test markdown files", () => {
     await testScreenshotSnapshot("test/fixtures/gitgraph.in.md");
   });
 
+  test("should render flowcharts visually", async () => {
+    await testScreenshotSnapshot("test/fixtures/flowchart.in.md");
+  });
+
+  test("should render flowcharts correctly", async () => {
+    await renderWithRemark(
+      "test/fixtures/flowchart.in.md",
+      "test/fixtures/flowchart.out.md"
+    );
+  });
+
   // mermaid-cli doesn't throw any errors if your mermaid code is invalid
   // instead, it ouputs an SVG that says an error has occured
   // see https://github.com/mermaid-js/mermaid-cli/issues/276
