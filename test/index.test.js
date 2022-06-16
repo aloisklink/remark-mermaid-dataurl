@@ -77,7 +77,7 @@ async function testScreenshotSnapshot(
     // if it's on a local PC, we can just open up the file
     dumpInlineDiffToConsole: process.env["CI"],
     comparisonMethod: "ssim",
-    failureThreshold: 0.01,
+    failureThreshold: 0.02,
     failureThresholdType: "percent",
   });
 }
