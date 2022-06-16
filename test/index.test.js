@@ -76,9 +76,9 @@ async function testScreenshotSnapshot(
     // only enable inline diff for GitHub Actions or CI
     // if it's on a local PC, we can just open up the file
     dumpInlineDiffToConsole: process.env["CI"],
-    comparisonMethod: 'ssim',
+    comparisonMethod: "ssim",
     failureThreshold: 0.01,
-    failureThresholdType: 'percent',
+    failureThresholdType: "percent",
   });
 }
 
