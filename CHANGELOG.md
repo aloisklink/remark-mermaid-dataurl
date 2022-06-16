@@ -21,13 +21,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Deprecated
 
-- Our `dependencies` contain `"@mermaid-js/mermaid-cli":  ^8.9.2"`, however v8.10.2 of mermaid-cli
-  updated to [puppeteer v10.0.0](https://github.com/mermaid-js/mermaid-cli/pull/128),
-  which officially dropped Node v10 support. However, it still seems to work with Node v10,
-  it's just unsupported.
+- **Node v10 support is officially dropped in mermaid-cli 8.10.2**,
+  but unofficially, it stills seems to work.
+  
+  Our `dependencies` contain `"@mermaid-js/mermaid-cli":  ^8.9.2"`,
+  however v8.10.2 of mermaid-cli updated to
+  [puppeteer v10.0.0](https://github.com/mermaid-js/mermaid-cli/pull/128),
+  which officially dropped Node v10 support. However, it still seems to work
+  with Node v10, it's just unsupported.
 
-  If you encounter issues while running on Node v10, please pin `remark-mermaid-dataurl` to
-  `1.1.0`.
+  If you encounter issues while running on Node v10, please pin
+  `remark-mermaid-dataurl` to `1.1.0`.
 
 ## [1.1.0] - 2022-06-09
 
