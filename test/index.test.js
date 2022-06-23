@@ -76,9 +76,9 @@ async function testScreenshotSnapshot(
     // only enable inline diff for GitHub Actions or CI
     // if it's on a local PC, we can just open up the file
     dumpInlineDiffToConsole: process.env["CI"],
-    failureThreshold: 0.1,
+    comparisonMethod: "ssim",
+    failureThreshold: 0.02,
     failureThresholdType: "percent",
-    blur: 2,
   });
 }
 
@@ -103,6 +103,24 @@ describe("test markdown files", () => {
 
   test("should render git graphs visually", async () => {
     await testScreenshotSnapshot("test/fixtures/gitgraph.in.md");
+  });
+
+  test("should render flowcharts visually", async () => {
+    await testScreenshotSnapshot("test/fixtures/flowchart.in.md");
+  });
+
+  test("should render flowcharts correctly", async () => {
+    await renderWithRemark(
+      "test/fixtures/flowchart.in.md",
+      "test/fixtures/flowchart.out.md"
+    );
+  });
+
+  // mermaid-cli doesn't throw any errors if your mermaid code is invalid
+  // instead, it ouputs an SVG that says an error has occured
+  // see https://github.com/mermaid-js/mermaid-cli/issues/276
+  test("should render invalid mermaid visually", async () => {
+    await testScreenshotSnapshot("test/fixtures/invalid.in.md");
   });
 
   test("should use puppeteer config", async () => {

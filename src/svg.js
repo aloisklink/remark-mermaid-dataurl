@@ -8,6 +8,28 @@ const { SVG, registerWindow } = require("@svgdotjs/svg.js");
 registerWindow(window, document);
 
 /**
+ * Gets only the `<svg>` element from a HTML string.
+ *
+ * Sometimes `mermaid-cli` returns `<div><svg>...`, and we need to only
+ * return the SVG element to be valid SVG.
+ *
+ * @param {string} string - The string to check if actually an SVG.
+ * @throws {Error} Throws an error if the input string could not be converted to an `<svg`.
+ * @returns {string} An SVG string starting with `<svg`.
+ */
+function validSVG(string) {
+  const svg = SVG(string);
+  if (svg.node.nodeName !== "svg") {
+    // if this is a `<div><svg> ...` return just the SVG.
+    if (svg.node.childNodes.length === 1) {
+      return validSVG(svg.node.childNodes[0].outerHTML);
+    }
+    throw new Error(`Parsing SVG failed: string seems to be a ${svg.node.nodeName}, not an SVG.`);
+  }
+  return string;
+}
+
+/**
  * Sets the width of an SVG from 100% to a pixel value.
  *
  * SVG from mermaids normally have the width=100% property.
@@ -26,14 +48,17 @@ registerWindow(window, document);
  */
 function setSvgBbox(svgString) {
   const svg = SVG(svgString);
+
   if (svg.node.getAttribute("width") === "100%") {
     const calculatedWidthInPixels = svg.bbox().width;
     if (calculatedWidthInPixels > 300) {
       // if width is less than 300, let browser default to 300px
       svg.node.setAttribute("width", calculatedWidthInPixels);
+      return svg.svg();
     }
   }
-  return svg.svg();
+
+  return svgString;
 }
 
-module.exports = { setSvgBbox };
+module.exports = { setSvgBbox, validSVG };
