@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "lint": "npx eslint test/ index.js"
+    "lint": "npx eslint test/ index.js",
+    "prepare": "husky install"
   },
   "engines": {
     "node": ">=14.1.0"
