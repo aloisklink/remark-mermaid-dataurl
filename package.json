@@ -1,6 +1,6 @@
 {
   "name": "remark-mermaid-dataurl",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "A remark plugin for Markdown that replaces mermaid graphs with dataurls",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "lint": "npx eslint test/ index.js"
   },
   "engines": {
-    "node": "^10.17.0 || >= 11.14.0"
+    "node": ">=14.1.0"
   },
   "files": [
     "index.js",
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/aloisklink/remark-mermaid-dataurl#readme",
   "dependencies": {
-    "@mermaid-js/mermaid-cli": "^8.9.2",
+    "@mermaid-js/mermaid-cli": "^9.1.2",
     "@svgdotjs/svg.js": "^3.1.2",
     "memfs": "^3.2.0",
     "svgdom": "^0.1.10",
@@ -46,7 +46,7 @@
     "jest-image-snapshot": "^4.4.0",
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
-    "puppeteer": "^13.0.0",
+    "puppeteer": "^14.1.0",
     "rehype-document": "^5.1.0",
     "rehype-stringify": "^8.0.0",
     "remark": "^13.0.0",

@@ -15,7 +15,7 @@ branch newbranch
 checkout newbranch
 commit
 commit
-checkout master
+checkout main
 commit
 commit
 merge newbranch

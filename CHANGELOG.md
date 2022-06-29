@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2022-06-29
+
+### Breaking Changes
+
+- NodeJS 14.1 is the minimum supported version
+- The minimum version of `mermaid-cli` has been bumped to `^9.1.2`.
+  This has caused the following **BREAKING CHANGES**:
+  - `mermaid` is now version `^9.0.0`
+    - [Full CHANGELOG](https://github.com/mermaid-js/mermaid/releases/tag/9.0.0)
+    - **BREAKING CHANGE**: `gitGraph`'s have been reinvented
+      - The main branch is now called `main`, not `master`.
+      - Plus numerous other `gitgraph changes, please see mermaid release notes.
+  - `puppeteer` is now version `^14.1.0`
+    - **BREAKING CHANGE**: NodeJS 14 is the minimum supported version now.
+
+### Dependencies
+
+- Updated `mermaid-cli` version to `^9.1.2`
+
 ## [1.1.1] - 2022-06-16
 
 ### Fixed
