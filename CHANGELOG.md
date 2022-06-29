@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2022-06-29
+
 ### Breaking Changes
 
 - NodeJS 14.1 is the minimum supported version
