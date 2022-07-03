@@ -16,11 +16,18 @@ const createVolume = () => {
 };
 
 /**
- * Calls mmdc (mermaid-cli) with the given keyword args
+ * Calls mmdc (mermaid-cli) with the given keyword args.
+ *
+ * This function runs `mmdc` in a separate process.
+ * Additionally, the separate process has a custom hook function to automatically
+ * save/load the mmd input text and SVG output text in a virtual NodeJS `memfs`,
+ * so that we don't need access to the file system.
+ *
  * @param {{[key: string]: any}} kwargs
  *   Args passed to mmdc in format `--key value`
- * @param {string} input input file contents
- * @returns {Promise<void, Error>}
+ * @param {string} input mermaid input file contents
+ * @throws {Error} If mmdc fails in anyways.
+ * @returns {Promise<string>} Returns the rendered mermaid code as an SVG.
  */
 function renderMermaidFile(kwargs, input) {
   const volume = createVolume();
