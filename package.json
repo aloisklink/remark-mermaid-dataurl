@@ -51,7 +51,6 @@
     "rehype-document": "^5.1.0",
     "rehype-stringify": "^8.0.0",
     "remark": "^13.0.0",
-    "remark-html": "^13.0.1",
     "remark-rehype": "^8.1.0"
   },
   "lint-staged": {
