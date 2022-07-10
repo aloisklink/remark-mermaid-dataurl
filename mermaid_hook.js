@@ -57,12 +57,5 @@ process.once("message", function (volumeJSON) {
     ["writeFileSync", "existsSync", "readFile", "writeFile", "readFileSync"]
   );
 
-  process.on("unhandledRejection", (reason, promise) => {
-    console.error(`Unhandled Rejection at: ${promise} reason: ${reason}`);
-    // mermaid_cli doesn't automatically throw error exit code on unhandled rejection errors
-    process.send({ error: `${reason}` });
-    process.exitCode = 1;
-  });
-
   require(mermaid_cli);
 });

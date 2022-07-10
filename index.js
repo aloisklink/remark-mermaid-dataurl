@@ -69,27 +69,24 @@ function renderMermaidFile(kwargs, input) {
   const child_process = childProcess.fork(
     require.resolve("./mermaid_hook"),
     args,
-    {}
+    {
+      // store stderr for errors, and ipc for piping memfs info
+      stdio: ["ignore", "ignore", "pipe", "ipc"],
+    }
   );
+
+  const stderrChunks = [];
   child_process.send(volume.toJSON());
+
+  child_process.stderr.on("data", (chunk) => stderrChunks.push(chunk));
 
   return new Promise((resolve, reject) => {
     let exited = false; // stream may error AND exit
     child_process.on("message", (message) => {
       exited = true;
       child_process.kill();
-      if (message.error) {
-        reject(
-          new Error(
-            `${mmdc} with kwargs ${JSON.stringify(kwargs)} failed with error: ${
-              message.error
-            }`
-          )
-        );
-      } else {
-        volume.fromJSON(message);
-        resolve(volume.promises.readFile(outputPath, { encoding: "utf8" }));
-      }
+      volume.fromJSON(message);
+      resolve(volume.promises.readFile(outputPath, { encoding: "utf8" }));
     });
     child_process.on("error", (error) => {
       exited = true;
@@ -104,7 +101,9 @@ function renderMermaidFile(kwargs, input) {
           new Error(
             `${mmdc} with kwargs ${JSON.stringify(
               kwargs
-            )} failed with error code: ${code}`
+            )} failed with error code: ${code} and stderr: ${Buffer.concat(
+              stderrChunks
+            ).toString("utf-8")}`
           )
         );
       } else if (signal) {
