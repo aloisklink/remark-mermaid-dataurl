@@ -1,13 +1,14 @@
-const fs = require("fs");
-const remark = require("remark");
-const remark2rehype = require("remark-rehype");
-const doc = require("rehype-document");
-const html = require("rehype-stringify");
+import fs from "fs";
+import remark from "remark";
+import remark2rehype from "remark-rehype";
+import doc from "rehype-document";
+import html from "rehype-stringify";
 
-const puppeteer = require("puppeteer");
-const { toMatchImageSnapshot } = require("jest-image-snapshot");
+import { launch } from "puppeteer";
+import { toMatchImageSnapshot } from "jest-image-snapshot";
 
-const remarkMermaidDataurl = require("../index.js");
+import remarkMermaidDataurl from "../index.js";
+import { jest, expect, describe, test } from "@jest/globals";
 
 expect.extend({ toMatchImageSnapshot });
 jest.setTimeout(30000); // 30 seconds since mermaid-cli is slow
@@ -66,7 +67,7 @@ async function testScreenshotSnapshot(
       .use(html)
       .process(await infile)
   ).contents;
-  const browser = await puppeteer.launch({});
+  const browser = await launch({});
   const page = await browser.newPage();
   page.setViewport({ width: 1000, height: 800, deviceScaleFactor: 1 });
   await page.setContent(htmlFile);

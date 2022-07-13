@@ -4,7 +4,7 @@
   "description": "A remark plugin for Markdown that replaces mermaid graphs with dataurls",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "npx eslint test/ index.js",
     "prepare": "husky install"
   },
@@ -38,6 +38,7 @@
     "unist-util-visit": "^2.0.3"
   },
   "devDependencies": {
+    "@jest/globals": "^28.1.2",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-node": "^11.1.0",
@@ -54,7 +55,7 @@
     "remark-rehype": "^8.1.0"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
+    "*.{mjs,cjs,js}": "eslint --cache --fix",
     "*.{md,yaml,yml,json,css,mdx}": "prettier --write"
   }
 }
