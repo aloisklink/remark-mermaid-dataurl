@@ -1,5 +1,5 @@
 import fs from "fs";
-import remark from "remark";
+import { remark } from "remark";
 import remark2rehype from "remark-rehype";
 import doc from "rehype-document";
 import html from "rehype-stringify";
@@ -35,7 +35,7 @@ async function renderWithRemark(
   const file = await remark()
     .use(remarkMermaidDataurl, remarkOptions)
     .process(await infile);
-  const outfile = file.contents;
+  const outfile = file.value;
   await fs.promises.writeFile(outputFileName, outfile, {
     encoding: "utf8",
   });
@@ -66,7 +66,7 @@ async function testScreenshotSnapshot(
       .use(doc, { style: css })
       .use(html)
       .process(await infile)
-  ).contents;
+  ).value;
   const browser = await launch({});
   const page = await browser.newPage();
   page.setViewport({ width: 1000, height: 800, deviceScaleFactor: 1 });
