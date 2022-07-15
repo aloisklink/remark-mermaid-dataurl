@@ -49,7 +49,7 @@
     "lint-staged": "^13.0.3",
     "prettier": "^2.2.1",
     "puppeteer": "^15.3.2",
-    "rehype-document": "^5.1.0",
+    "rehype-document": "^6.0.1",
     "rehype-stringify": "^9.0.3",
     "remark": "^14.0.0",
     "remark-rehype": "^10.1.0"
