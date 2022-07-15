@@ -51,7 +51,7 @@
     "puppeteer": "^15.3.2",
     "rehype-document": "^5.1.0",
     "rehype-stringify": "^9.0.3",
-    "remark": "^13.0.0",
+    "remark": "^14.0.2",
     "remark-rehype": "^10.1.0"
   },
   "lint-staged": {
