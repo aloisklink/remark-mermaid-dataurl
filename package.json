@@ -35,7 +35,7 @@
     "@svgdotjs/svg.js": "^3.1.2",
     "memfs": "^3.2.0",
     "svgdom": "^0.1.10",
-    "unist-util-visit": "^2.0.3"
+    "unist-util-visit": "^4.1.0"
   },
   "devDependencies": {
     "@jest/globals": "^28.1.2",
