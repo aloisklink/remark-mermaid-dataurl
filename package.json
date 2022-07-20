@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/aloisklink/remark-mermaid-dataurl#readme",
   "dependencies": {
-    "@mermaid-js/mermaid-cli": "^9.1.2",
+    "@mermaid-js/mermaid-cli": "^9.1.4",
     "@svgdotjs/svg.js": "^3.1.2",
     "memfs": "^3.2.0",
     "svgdom": "^0.1.10",

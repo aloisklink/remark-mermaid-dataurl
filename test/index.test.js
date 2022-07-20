@@ -116,11 +116,10 @@ describe("test markdown files", () => {
     );
   });
 
-  // mermaid-cli doesn't throw any errors if your mermaid code is invalid
-  // instead, it ouputs an SVG that says an error has occured
-  // see https://github.com/mermaid-js/mermaid-cli/issues/276
-  test("should render invalid mermaid visually", async () => {
-    await testScreenshotSnapshot("test/fixtures/invalid.in.md");
+  test("should fail to render invalid mermaid visually", async () => {
+    await expect(
+      testScreenshotSnapshot("test/fixtures/invalid.in.md")
+    ).rejects.toThrow("Parse error");
   });
 
   test("should use puppeteer config", async () => {

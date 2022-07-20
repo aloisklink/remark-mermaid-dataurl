@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed error handling for mermaid-cli `^9.1.4`.
 
+### Dependencies
+
+- Updated `mermaid-cli` version to `^9.1.4`
+  - This increases the minimum version of `mermaid` to `^9.1.3`, see
+    https://github.com/mermaid-js/mermaid/releases/tag/9.1.3
+
 ## [2.0.0] - 2022-06-29
 
 ### Breaking Changes
