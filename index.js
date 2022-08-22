@@ -1,19 +1,11 @@
-const { Volume } = require("memfs");
-const childProcess = require("child_process");
-const path = require("path");
+const { readFile } = require("fs/promises");
+const puppeteer = require("puppeteer");
 
 const visit = require("unist-util-visit");
-const mmdc = require.resolve("@mermaid-js/mermaid-cli/index.bundle.js");
 
 const { setSvgBbox, validSVG } = require("./src/svg.js");
 
 const PLUGIN_NAME = "remark-mermaid-dataurl";
-
-const createVolume = () => {
-  const volume = new Volume();
-  volume.mkdirSync(process.cwd(), { recursive: true });
-  return volume;
-};
 
 /**
  * Calls mmdc (mermaid-cli) with the given keyword args.
@@ -29,104 +21,35 @@ const createVolume = () => {
  * @throws {Error} If mmdc fails in anyways.
  * @returns {Promise<string>} Returns the rendered mermaid code as an SVG.
  */
-function renderMermaidFile(kwargs, input) {
-  const volume = createVolume();
-  const cwd = process.cwd();
-  const outputPath = path.join(cwd, "output.svg");
-  const inputPath = path.join(cwd, "input");
-  volume.writeFileSync(inputPath, input, "utf8");
-
-  if (kwargs.configFile && typeof kwargs.configFile === "object") {
-    const configFilePath = path.join(cwd, "config.json");
-    volume.writeFileSync(
-      configFilePath,
-      JSON.stringify(kwargs.configFile),
-      "utf8"
+async function renderMermaidFile(kwargs, input) {
+  let configFile = kwargs.configFile ?? {};
+  if (kwargs.configFile && typeof kwargs.configFile !== "object") {
+    configFile = JSON.parse(
+      await readFile(kwargs.configFile, { encoding: "utf8" })
     );
-    kwargs = { ...kwargs, configFile: configFilePath };
   }
+  let puppeteerConfigFile = kwargs.puppeteerConfigFile ?? {};
   if (
     kwargs.puppeteerConfigFile &&
-    typeof kwargs.puppeteerConfigFile === "object"
+    typeof kwargs.puppeteerConfigFile !== "object"
   ) {
-    const puppeteerConfigFilePath = path.join(cwd, "puppeteerConfigFile.json");
-    volume.writeFileSync(
-      puppeteerConfigFilePath,
-      JSON.stringify(kwargs.puppeteerConfigFile),
-      "utf8"
+    puppeteerConfigFile = JSON.parse(
+      await readFile(kwargs.puppeteerConfigFile, { encoding: "utf8" })
     );
-    kwargs = { ...kwargs, puppeteerConfigFile: puppeteerConfigFilePath };
   }
 
-  // Array.flatMap() was only added in NodeJS v11
-  const args = [].concat(
-    ...Object.entries({
-      ...kwargs,
-      input: inputPath,
-      output: outputPath,
-    }).map(([key, value]) => [`--${key}`, value])
-  );
-  const child_process = childProcess.fork(
-    require.resolve("./mermaid_hook"),
-    args,
-    {
-      // store stderr for errors, and ipc for piping memfs info
-      stdio: ["ignore", "ignore", "pipe", "ipc"],
-    }
-  );
-
-  const stderrChunks = [];
-  child_process.send(volume.toJSON());
-
-  child_process.stderr.on("data", (chunk) => stderrChunks.push(chunk));
-
-  return new Promise((resolve, reject) => {
-    let exited = false; // stream may error AND exit
-    child_process.on("message", (message) => {
-      exited = true;
-      child_process.kill();
-      volume.fromJSON(message);
-      resolve(volume.promises.readFile(outputPath, { encoding: "utf8" }));
+  // eslint-disable-next-line node/no-unsupported-features/es-syntax, node/no-missing-import
+  const { parseMMD } = await import("@mermaid-js/mermaid-cli");
+  const browser = await puppeteer.launch(puppeteerConfigFile);
+  try {
+    const outputSvg = await parseMMD(browser, input, "svg", {
+      mermaidConfig: configFile,
+      viewport: { width: 800, height: 600 },
     });
-    child_process.on("error", (error) => {
-      exited = true;
-      reject(error);
-    });
-    child_process.on("exit", (code, signal) => {
-      if (exited) {
-        return; // already resolved Promise
-      }
-      if (code) {
-        reject(
-          new Error(
-            `${mmdc} with kwargs ${JSON.stringify(
-              kwargs
-            )} failed with error code: ${code} and stderr: ${Buffer.concat(
-              stderrChunks
-            ).toString("utf-8")}`
-          )
-        );
-      } else if (signal) {
-        reject(
-          new Error(
-            `${mmdc} with kwargs ${JSON.stringify(
-              kwargs
-            )} recieved signal ${signal}`
-          )
-        );
-      } else {
-        // Mermaid-CLI throws unhandledRejection warnings
-        // which sometimes return exit code 0
-        reject(
-          new Error(
-            `${mmdc} with kwargs ${JSON.stringify(
-              kwargs
-            )} exited without returning created SVG.`
-          )
-        );
-      }
-    });
-  });
+    return outputSvg.toString("utf8");
+  } finally {
+    await browser.close();
+  }
 }
 
 /** Converts a string to a base64 string */

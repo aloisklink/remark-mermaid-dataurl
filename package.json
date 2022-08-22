@@ -31,9 +31,9 @@
   },
   "homepage": "https://github.com/aloisklink/remark-mermaid-dataurl#readme",
   "dependencies": {
-    "@mermaid-js/mermaid-cli": "^9.1.4",
+    "@mermaid-js/mermaid-cli": "^9.1.6",
     "@svgdotjs/svg.js": "^3.1.2",
-    "memfs": "^3.2.0",
+    "puppeteer": "^16.0.0",
     "svgdom": "^0.1.10",
     "unist-util-visit": "^2.0.3"
   },
@@ -48,7 +48,6 @@
     "jest-light-runner": "^0.3.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.2.1",
-    "puppeteer": "^16.0.0",
     "rehype-document": "^6.0.1",
     "rehype-stringify": "^9.0.3",
     "remark": "^14.0.0",

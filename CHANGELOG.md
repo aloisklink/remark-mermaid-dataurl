@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed support for mermaid-cli `^9.1.6`
+
+### Dependencies
+
+- Updated `mermaid-cli` version to `^9.1.6`
+  - This increases the minimum version of `mermaid` to `^9.1.6`, see
+    https://github.com/mermaid-js/mermaid/releases/tag/9.1.6
+- Removed unneeded dependency on `memfs`
+- Added dependency on puppeteer `^16.0.0`
+  - puppeteer was previously a transitive dependency from `mermaid-cli`
+
 ## [2.0.1] - 2022-07-21
 
 ### Fixed
