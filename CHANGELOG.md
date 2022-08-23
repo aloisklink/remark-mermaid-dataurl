@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.2] - 2022-08-23
+
 ### Fixed
 
 - Fixed support for mermaid-cli `^9.1.6`
