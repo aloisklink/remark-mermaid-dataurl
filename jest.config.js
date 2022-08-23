@@ -9,4 +9,6 @@ module.exports = {
     // look for test.mjs files
     "**/?(*.)+(spec|test).?([cm])[tj]s?(x)",
   ],
+  // work around for https://github.com/nodejs/node/issues/35889#issuecomment-1129293091
+  runner: "jest-light-runner",
 };

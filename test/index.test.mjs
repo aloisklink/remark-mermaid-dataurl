@@ -8,10 +8,14 @@ import { launch } from "puppeteer";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
 import remarkMermaidDataurl from "../index.js";
-import { jest, expect, describe, test } from "@jest/globals";
+
+// wish-list, not supported in jest-light-runner
+// see https://github.com/nicolo-ribaudo/jest-light-runner/issues/42
+// import { jest, expect, describe, test } from "@jest/globals";
 
 expect.extend({ toMatchImageSnapshot });
-jest.setTimeout(30000); // 30 seconds since mermaid-cli is slow
+
+const timeout = 30000; // 30 seconds since mermaid-cli is slow
 
 /**
  * Renders a markdown file through `remark-markdown-dataurl`.
@@ -84,70 +88,106 @@ async function testScreenshotSnapshot(
 }
 
 describe("test markdown files", () => {
-  test("should render basic.md without errors", async () => {
-    await renderWithRemark(
-      "test/fixtures/basic.in.md",
-      "test/fixtures/basic.out.md"
-    );
-  });
+  test(
+    "should render basic.md without errors",
+    async () => {
+      await renderWithRemark(
+        "test/fixtures/basic.in.md",
+        "test/fixtures/basic.out.md"
+      );
+    },
+    timeout
+  );
 
-  test("should render basic.md visually", async () => {
-    await testScreenshotSnapshot("test/fixtures/basic.in.md");
-  });
+  test(
+    "should render basic.md visually",
+    async () => {
+      await testScreenshotSnapshot("test/fixtures/basic.in.md");
+    },
+    timeout
+  );
 
-  test("should render git graphs correctly", async () => {
-    await renderWithRemark(
-      "test/fixtures/gitgraph.in.md",
-      "test/fixtures/gitgraph.out.md"
-    );
-  });
-
-  test("should render git graphs visually", async () => {
-    await testScreenshotSnapshot("test/fixtures/gitgraph.in.md");
-  });
-
-  test("should render flowcharts visually", async () => {
-    await testScreenshotSnapshot("test/fixtures/flowchart.in.md");
-  });
-
-  test("should render flowcharts correctly", async () => {
-    await renderWithRemark(
-      "test/fixtures/flowchart.in.md",
-      "test/fixtures/flowchart.out.md"
-    );
-  });
-
-  test("should fail to render invalid mermaid visually", async () => {
-    await expect(
-      testScreenshotSnapshot("test/fixtures/invalid.in.md")
-    ).rejects.toThrow("Parse error");
-  });
-
-  test("should use puppeteer config", async () => {
-    await expect(
-      renderWithRemark(
+  test(
+    "should render git graphs correctly",
+    async () => {
+      await renderWithRemark(
         "test/fixtures/gitgraph.in.md",
-        "test/fixtures/should-never-happen.out.md",
-        {
+        "test/fixtures/gitgraph.out.md"
+      );
+    },
+    timeout
+  );
+
+  test(
+    "should render git graphs visually",
+    async () => {
+      await testScreenshotSnapshot("test/fixtures/gitgraph.in.md");
+    },
+    timeout
+  );
+
+  test(
+    "should render flowcharts visually",
+    async () => {
+      await testScreenshotSnapshot("test/fixtures/flowchart.in.md");
+    },
+    timeout
+  );
+
+  test(
+    "should render flowcharts correctly",
+    async () => {
+      await renderWithRemark(
+        "test/fixtures/flowchart.in.md",
+        "test/fixtures/flowchart.out.md"
+      );
+    },
+    timeout
+  );
+
+  test(
+    "should fail to render invalid mermaid visually",
+    async () => {
+      await expect(
+        testScreenshotSnapshot("test/fixtures/invalid.in.md")
+      ).rejects.toThrow("Parse error");
+    },
+    timeout
+  );
+
+  test(
+    "should use puppeteer config",
+    async () => {
+      await expect(
+        renderWithRemark(
+          "test/fixtures/gitgraph.in.md",
+          "test/fixtures/should-never-happen.out.md",
+          {
+            mermaidCli: {
+              puppeteerConfigFile: {
+                timeout: 1, // should fail
+              },
+            },
+          }
+        )
+      ).rejects.toThrow("Timed out");
+    },
+    timeout
+  );
+
+  test(
+    "should use mermaid-cli to use forest theme",
+    async () => {
+      await testScreenshotSnapshot("test/fixtures/basic.in.md", {
+        remarkOptions: {
           mermaidCli: {
-            puppeteerConfigFile: {
-              timeout: 1, // should fail
+            configFile: {
+              theme: "forest",
             },
           },
-        }
-      )
-    ).rejects.toThrow("TimeoutError");
-  });
-
-  test("should use mermaid-cli to use forest theme", async () => {
-    await testScreenshotSnapshot("test/fixtures/basic.in.md", {
-      remarkOptions: {
-        mermaidCli: {
-          configFile: {
-            theme: "forest",
-          },
         },
-      },
-    });
-  });
+      });
+    },
+    timeout
+  );
 });

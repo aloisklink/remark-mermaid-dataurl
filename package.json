@@ -38,7 +38,6 @@
     "unist-util-visit": "^2.0.3"
   },
   "devDependencies": {
-    "@jest/globals": "^28.1.2",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-node": "^11.1.0",
@@ -46,6 +45,7 @@
     "husky": "^8.0.1",
     "jest": "^28.1.2",
     "jest-image-snapshot": "^5.1.0",
+    "jest-light-runner": "^0.3.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.2.1",
     "puppeteer": "^16.0.0",
