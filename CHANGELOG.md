@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Dependencies
+
+- Updated `unist-util-visit` from `^2.0.3` to `^4.0.0`
+
 ## [2.0.2] - 2022-08-23
 
 ### Fixed

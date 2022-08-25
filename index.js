@@ -1,8 +1,6 @@
 const { readFile } = require("fs/promises");
 const puppeteer = require("puppeteer");
 
-const visit = require("unist-util-visit");
-
 const { setSvgBbox, validSVG } = require("./src/svg.js");
 
 const PLUGIN_NAME = "remark-mermaid-dataurl";
@@ -116,6 +114,9 @@ function remarkMermaid({ mermaidCli = {} } = {}) {
    */
   return async function (tree, file) {
     const promises = []; // keep track of promises since visit isn't async
+
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const { visit } = await import("unist-util-visit");
     visit(tree, "code", (node, index, parent) => {
       // If this codeblock is not mermaid, bail.
       if (node.lang !== "mermaid") {
