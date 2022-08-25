@@ -13,7 +13,6 @@
   },
   "files": [
     "index.js",
-    "mermaid_hook.js",
     "src/"
   ],
   "repository": {
