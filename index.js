@@ -18,38 +18,25 @@ const PLUGIN_NAME = "remark-mermaid-dataurl";
  * @param {{[key: string]: any}} kwargs
  *   Args passed to mmdc in format `--key value`
  * @param {string} input mermaid input file contents
+ * @param {puppeteer.Browser} browser Puppeteer browser to use for rendering.
  * @throws {Error} If mmdc fails in anyways.
  * @returns {Promise<string>} Returns the rendered mermaid code as an SVG.
  */
-async function renderMermaidFile(kwargs, input) {
+async function renderMermaidFile(kwargs, input, browser) {
   let configFile = kwargs.configFile ?? {};
   if (kwargs.configFile && typeof kwargs.configFile !== "object") {
     configFile = JSON.parse(
       await readFile(kwargs.configFile, { encoding: "utf8" })
     );
   }
-  let puppeteerConfigFile = kwargs.puppeteerConfigFile ?? {};
-  if (
-    kwargs.puppeteerConfigFile &&
-    typeof kwargs.puppeteerConfigFile !== "object"
-  ) {
-    puppeteerConfigFile = JSON.parse(
-      await readFile(kwargs.puppeteerConfigFile, { encoding: "utf8" })
-    );
-  }
 
   // eslint-disable-next-line node/no-unsupported-features/es-syntax, node/no-missing-import
   const { parseMMD } = await import("@mermaid-js/mermaid-cli");
-  const browser = await puppeteer.launch(puppeteerConfigFile);
-  try {
-    const outputSvg = await parseMMD(browser, input, "svg", {
-      mermaidConfig: configFile,
-      viewport: { width: 800, height: 600 },
-    });
-    return outputSvg.toString("utf8");
-  } finally {
-    await browser.close();
-  }
+  const outputSvg = await parseMMD(browser, input, "svg", {
+    mermaidConfig: configFile,
+    viewport: { width: 800, height: 600 },
+  });
+  return outputSvg.toString("utf8");
 }
 
 /** Converts a string to a base64 string */
@@ -65,10 +52,16 @@ function dataUrl(data, mimeType, base64 = false) {
   }
 }
 
-async function transformMermaidNode(node, file, index, parent, { mermaidCli }) {
+async function transformMermaidNode(
+  node,
+  file,
+  index,
+  parent,
+  { mermaidCli, browser }
+) {
   const { lang, value, position } = node;
   try {
-    let svgString = await renderMermaidFile(mermaidCli, value);
+    let svgString = await renderMermaidFile(mermaidCli, value, browser);
 
     // attempts to convert the whatever mermaid-cli returned into a valid SVG
     // or throws an error if it can't
@@ -116,14 +109,35 @@ function remarkMermaid({ mermaidCli = {} } = {}) {
    */
   return async function (tree, file) {
     const promises = []; // keep track of promises since visit isn't async
-    visit(tree, "code", (node, index, parent) => {
-      // If this codeblock is not mermaid, bail.
-      if (node.lang !== "mermaid") {
-        return node;
-      }
-      promises.push(transformMermaidNode(node, file, index, parent, options));
-    });
-    await Promise.all(promises);
+
+    let puppeteerConfigFile = mermaidCli.puppeteerConfigFile ?? {};
+    if (
+      mermaidCli.puppeteerConfigFile &&
+      typeof mermaidCli.puppeteerConfigFile !== "object"
+    ) {
+      puppeteerConfigFile = JSON.parse(
+        await readFile(mermaidCli.puppeteerConfigFile, { encoding: "utf8" })
+      );
+    }
+
+    const browser = await puppeteer.launch(puppeteerConfigFile);
+    try {
+      visit(tree, "code", (node, index, parent) => {
+        // If this codeblock is not mermaid, bail.
+        if (node.lang !== "mermaid") {
+          return node;
+        }
+        promises.push(
+          transformMermaidNode(node, file, index, parent, {
+            ...options,
+            browser,
+          })
+        );
+      });
+      await Promise.all(promises);
+    } finally {
+      await browser.close();
+    }
   };
 }
 

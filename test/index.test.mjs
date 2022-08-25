@@ -146,6 +146,14 @@ describe("test markdown files", () => {
   );
 
   test(
+    "should render multiple mermaid diagrams visually",
+    async () => {
+      await testScreenshotSnapshot("test/fixtures/multiple.in.md");
+    },
+    timeout
+  );
+
+  test(
     "should fail to render invalid mermaid visually",
     async () => {
       await expect(
