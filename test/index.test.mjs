@@ -198,4 +198,18 @@ describe("test markdown files", () => {
     },
     timeout
   );
+
+  test(
+    "should set a red background",
+    async () => {
+      await testScreenshotSnapshot("test/fixtures/basic.in.md", {
+        remarkOptions: {
+          mermaidCli: {
+            backgroundColor: "red",
+          },
+        },
+      });
+    },
+    timeout
+  );
 });

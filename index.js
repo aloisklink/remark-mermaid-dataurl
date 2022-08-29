@@ -1,11 +1,49 @@
 const { readFile } = require("fs/promises");
 const puppeteer = require("puppeteer");
 
-const visit = require("unist-util-visit");
-
 const { setSvgBbox, validSVG } = require("./src/svg.js");
 
 const PLUGIN_NAME = "remark-mermaid-dataurl";
+
+/**
+ * Converts CLI args to {@link parseMMD} options.
+ *
+ * Required for backwards compatibility.
+ *
+ * @param {{[key: string]: any}} kwargs Args passed to mmdc in format `--key value`
+ * @returns {Promise<import("@mermaid-js/mermaid-cli").ParseMDDOptions>} Options to pass to parseMMD.
+ */
+async function convertMermaidKwargsToParseMMDOpts({
+  theme,
+  width = 800,
+  height = 600,
+  backgroundColor,
+  configFile,
+  cssFile,
+  scale,
+  pdfFit,
+}) {
+  let mermaidConfig = { theme };
+  if (configFile && typeof configFile !== "object") {
+    mermaidConfig = {
+      ...mermaidConfig,
+      ...JSON.parse(await readFile(configFile, { encoding: "utf8" })),
+    };
+  }
+
+  let myCSS;
+  if (cssFile) {
+    myCSS = await readFile(cssFile, { encoding: "utf8" });
+  }
+
+  return {
+    mermaidConfig,
+    backgroundColor,
+    myCSS,
+    pdfFit,
+    viewport: { width, height, deviceScaleFactor: scale },
+  };
+}
 
 /**
  * Calls mmdc (mermaid-cli) with the given keyword args.
@@ -23,19 +61,14 @@ const PLUGIN_NAME = "remark-mermaid-dataurl";
  * @returns {Promise<string>} Returns the rendered mermaid code as an SVG.
  */
 async function renderMermaidFile(kwargs, input, browser) {
-  let configFile = kwargs.configFile ?? {};
-  if (kwargs.configFile && typeof kwargs.configFile !== "object") {
-    configFile = JSON.parse(
-      await readFile(kwargs.configFile, { encoding: "utf8" })
-    );
-  }
-
   // eslint-disable-next-line node/no-unsupported-features/es-syntax, node/no-missing-import
   const { parseMMD } = await import("@mermaid-js/mermaid-cli");
-  const outputSvg = await parseMMD(browser, input, "svg", {
-    mermaidConfig: configFile,
-    viewport: { width: 800, height: 600 },
-  });
+  const outputSvg = await parseMMD(
+    browser,
+    input,
+    "svg",
+    await convertMermaidKwargsToParseMMDOpts(kwargs)
+  );
   return outputSvg.toString("utf8");
 }
 
@@ -110,6 +143,8 @@ function remarkMermaid({ mermaidCli = {} } = {}) {
   return async function (tree, file) {
     const promises = []; // keep track of promises since visit isn't async
 
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const { visit } = await import("unist-util-visit");
     let puppeteerConfigFile = mermaidCli.puppeteerConfigFile ?? {};
     if (
       mermaidCli.puppeteerConfigFile &&
