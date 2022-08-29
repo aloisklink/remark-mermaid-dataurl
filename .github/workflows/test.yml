@@ -11,9 +11,15 @@ jobs:
       matrix:
         node-version: [14.x, 16.x, 18.x]
     steps:
+      - name: Install Mermaid `trebuchet ms` font
+        run: |
+          # accept Microsoft Corefonts EULA first
+          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | \
+            sudo debconf-set-selections
+          # install fonts
+          sudo apt-get install ttf-mscorefonts-installer -y \
+          || { sudo apt-get update && sudo apt-get install ttf-mscorefonts-installer -y; }
       - uses: actions/checkout@v2
-        # with:
-        #   submodules: true
       - name: Setup Node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
