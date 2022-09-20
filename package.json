@@ -32,7 +32,7 @@
   "dependencies": {
     "@mermaid-js/mermaid-cli": "^9.1.6",
     "@svgdotjs/svg.js": "^3.1.2",
-    "puppeteer": "^17.0.0",
+    "puppeteer": "^18.0.2",
     "svgdom": "^0.1.10",
     "unist-util-visit": "^4.0.0"
   },
