@@ -19,7 +19,7 @@ jobs:
           # install fonts
           sudo apt-get install ttf-mscorefonts-installer -y \
           || { sudo apt-get update && sudo apt-get install ttf-mscorefonts-installer -y; }
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
