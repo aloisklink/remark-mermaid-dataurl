@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.4] - 2022-09-29
+
+### Performance
+
+- Share a single puppeteer browser instance for all mermaid images.
+  [`9bccb09`](https://github.com/aloisklink/remark-mermaid-dataurl/commit/9bccb0911874a66c5911da107148ff000891e34e)
+
+### Dependencies
+
+- Updated puppeteer from `^16.0.0` to `^18.0.4`
+
 ## [2.0.3] - 2022-08-25
 
 ### Fixed
