@@ -6,6 +6,38 @@ const { setSvgBbox, validSVG } = require("./src/svg.js");
 const PLUGIN_NAME = "remark-mermaid-dataurl";
 
 /**
+ * Adds custom `remark-mermaid-dataurl` defaults to a mermaid config file.
+ *
+ * Sets `useMaxWidth` to `false` by default for better Markdown SVGs.
+ *
+ * @param {object} mermaidConfig - Warning, this is modified by this function.
+ * @returns {object} The input object with some default vars modified.
+ */
+function addDefaultConfig(mermaidConfig) {
+  const GRAPHS_TO_DISABLE_MAX_WIDTH = [
+    "flowchart",
+    "sequence",
+    "gantt",
+    "journey",
+    "class",
+    "state",
+    "er",
+    "pie",
+    "requirement",
+    "c4",
+  ];
+  for (const graphType of GRAPHS_TO_DISABLE_MAX_WIDTH) {
+    mermaidConfig[graphType] = {
+      // if this is true (default), SVG will use up the entire width of the markdown
+      // document, which is much much too wide
+      useMaxWidth: false,
+      ...mermaidConfig[graphType],
+    };
+  }
+  return mermaidConfig;
+}
+
+/**
  * Converts CLI args to {@link parseMMD} options.
  *
  * Required for backwards compatibility.
@@ -24,11 +56,15 @@ async function convertMermaidKwargsToParseMMDOpts({
   pdfFit,
 }) {
   let mermaidConfig = { theme };
-  if (configFile && typeof configFile !== "object") {
-    mermaidConfig = {
-      ...mermaidConfig,
-      ...JSON.parse(await readFile(configFile, { encoding: "utf8" })),
-    };
+  if (configFile) {
+    if (typeof configFile !== "object") {
+      mermaidConfig = {
+        ...mermaidConfig,
+        ...JSON.parse(await readFile(configFile, { encoding: "utf8" })),
+      };
+    } else {
+      mermaidConfig = { ...mermaidConfig, ...configFile };
+    }
   }
 
   let myCSS;
@@ -37,7 +73,7 @@ async function convertMermaidKwargsToParseMMDOpts({
   }
 
   return {
-    mermaidConfig,
+    mermaidConfig: addDefaultConfig(mermaidConfig),
     backgroundColor,
     myCSS,
     pdfFit,
