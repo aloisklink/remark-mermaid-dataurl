@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Set mermaid config option
+  [`useMaxWidth`](https://mermaid-js.github.io/mermaid/#/Setup?id=usemaxwidth-1)
+  to `false` by default.
+  In Mermaid v9.1.7, some graph types default to using all the available
+  horizontal space.
+  On many markdown renderers, this creates very large diagrams,
+  so by default `remark-mermaid-dataurl` limits them to use a smaller amount of space
+  (e.g. pre-v9.1.7 behaviour).
+
 ## [2.0.4] - 2022-09-29
 
 ### Performance
