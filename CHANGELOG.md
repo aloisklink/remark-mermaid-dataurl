@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   On many markdown renderers, this creates very large diagrams,
   so by default `remark-mermaid-dataurl` limits them to use a smaller amount of space
   (e.g. pre-v9.1.7 behaviour).
+- Fix passing `configFile` as a JS object.
 
 ## [2.0.4] - 2022-09-29
 

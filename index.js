@@ -56,11 +56,15 @@ async function convertMermaidKwargsToParseMMDOpts({
   pdfFit,
 }) {
   let mermaidConfig = { theme };
-  if (configFile && typeof configFile !== "object") {
-    mermaidConfig = {
-      ...mermaidConfig,
-      ...JSON.parse(await readFile(configFile, { encoding: "utf8" })),
-    };
+  if (configFile) {
+    if (typeof configFile !== "object") {
+      mermaidConfig = {
+        ...mermaidConfig,
+        ...JSON.parse(await readFile(configFile, { encoding: "utf8" })),
+      };
+    } else {
+      mermaidConfig = { ...mermaidConfig, ...configFile };
+    }
   }
 
   let myCSS;
