@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix undefined SVG `svgjs` namespace error
+  Sometimes, the generated SVGs are invalid due to an unknown `svgjs`
+  prefix error (this happens with `mermaid-mindmaps`),
+  see https://github.com/svgdotjs/svg.js/issues/1285.
+
+  This work-around manually defines the XML `svgjs` namespace by
+  adding `xmlns:svgjs` to the `<svg ...>` element until the upstream
+  issue/bug is fixed.
+
 ## [2.0.5] - 2022-10-09
 
 ### Fixed

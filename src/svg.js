@@ -2,7 +2,7 @@
 const { createSVGWindow } = require("svgdom");
 const window = createSVGWindow();
 const document = window.document;
-const { SVG, registerWindow } = require("@svgdotjs/svg.js");
+const { SVG, registerWindow, namespaces } = require("@svgdotjs/svg.js");
 
 // register window and document
 registerWindow(window, document);
@@ -24,7 +24,9 @@ function validSVG(string) {
     if (svg.node.childNodes.length === 1) {
       return validSVG(svg.node.childNodes[0].outerHTML);
     }
-    throw new Error(`Parsing SVG failed: string seems to be a ${svg.node.nodeName}, not an SVG.`);
+    throw new Error(
+      `Parsing SVG failed: string seems to be a ${svg.node.nodeName}, not an SVG.`
+    );
   }
   return string;
 }
@@ -54,6 +56,11 @@ function setSvgBbox(svgString) {
     if (calculatedWidthInPixels > 300) {
       // if width is less than 300, let browser default to 300px
       svg.node.setAttribute("width", calculatedWidthInPixels);
+      if (!svg.attr("xmlns:svgjs")) {
+        // this sometimes doesn't get set automatically
+        // (maybe a bug in SVG.js?)
+        svg.attr("xmlns:svgjs", namespaces.svgjs);
+      }
       return svg.svg();
     }
   }
