@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix minimum support Node versions to `^14.13 || >=16.0`.
+  This was always the case, due to a transitive dependency
+  via `mermaid-cli` on `chalk`.
+  See [mermaid-js/mermaid-cli@`57781f7`](https://github.com/mermaid-js/mermaid-cli/commit/57781f707a3665121c6cbc1f96fd202c1980db4a).
+
 ## [2.0.6] - 2022-11-13
 
 ### Fixed
