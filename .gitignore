@@ -1,3 +1,7 @@
+# Automatically generated TypeScript types
+/dist-types
+
+## ----- From Node.gitignore ------ ##
 # Logs
 logs
 *.log

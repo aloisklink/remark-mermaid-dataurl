@@ -6,11 +6,17 @@ const { setSvgBbox, validSVG } = require("./src/svg.js");
 const PLUGIN_NAME = "remark-mermaid-dataurl";
 
 /**
+ * @typedef {{[key: string]: any}} MermaidCliKwargs CLI options to pass to `@mermaid-js/mermaid-cli`
+ *
+ * For example, `--cssFile my-css-file.css` can be converted to `{"cssFile": "my-css-file.css"}`
+ */
+
+/**
  * Adds custom `remark-mermaid-dataurl` defaults to a mermaid config file.
  *
  * Sets `useMaxWidth` to `false` by default for better Markdown SVGs.
  *
- * @param {object} mermaidConfig - Warning, this is modified by this function.
+ * @param {{[x: string]: any}} mermaidConfig - Warning, this is modified by this function.
  * @returns {object} The input object with some default vars modified.
  */
 function addDefaultConfig(mermaidConfig) {
@@ -108,11 +114,25 @@ async function renderMermaidFile(kwargs, input, browser) {
   return outputSvg.toString("utf8");
 }
 
-/** Converts a string to a base64 string */
+/**
+ * Converts a string to a base64 string
+ *
+ * @param {string} string - The string to convert.
+ */
 function btoa(string) {
   return Buffer.from(string).toString("base64");
 }
 
+/**
+ * Creates a data URL.
+ *
+ * @param {string} data - The data to convert.
+ * @param {string} mimeType - The MIME-type of the data.
+ * @param {boolean} [base64] - If `true`, use base64 encoding instead of URI encoding.
+ * (Better for encoding binary data).
+ * @returns {string} The dataurl.
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs
+ */
 function dataUrl(data, mimeType, base64 = false) {
   if (base64) {
     return `data:${mimeType};base64,${btoa(data)}`;
@@ -121,6 +141,17 @@ function dataUrl(data, mimeType, base64 = false) {
   }
 }
 
+/**
+ * Transforms the given Mermaid Node.
+ *
+ * @param {import("mdast").Code} node - The Mermaid code-block.
+ * @param {import("vfile").VFile} file - The VFile to report errors to.
+ * @param {number} index - Index of node in `parent` node.
+ * @param {import("mdast").Parent} parent - The parent node.
+ * @param {object} options - Options.
+ * @param {MermaidCliKwargs} options.mermaidCli - kwargs to pass to mermaid cli.
+ * @param {puppeteer.Browser} options.browser - Puppeteer browser to use.
+ */
 async function transformMermaidNode(
   node,
   file,
@@ -138,6 +169,7 @@ async function transformMermaidNode(
     // replace width=100% with actual width in px
     svgString = setSvgBbox(svgString);
 
+    /** @type {import("mdast").Image} */
     const newNode = {
       type: "image",
       title: "Diagram generated via mermaid",
@@ -149,14 +181,15 @@ async function transformMermaidNode(
     // replace old node with current node
     parent.children[index] = newNode;
   } catch (error) {
-    file.fail(error, position, PLUGIN_NAME);
+    const errorOrString = error instanceof Error ? error : `${error}`;
+    file.fail(errorOrString, position, PLUGIN_NAME);
   }
 }
 
 /**
  * Remark plugin that converts mermaid codeblocks into self-contained SVG dataurls.
  * @param {Object} options
- * @param {Object} options.mermaidCli Options to pass to mermaid-cli
+ * @param {Object} [options.mermaidCli] Options to pass to mermaid-cli
  * @param {Object | string} [options.mermaidCli.configFile] - If set, a path to
  * a JSON configuration file for mermaid.
  * If this is an object, it will be automatically converted to a JSON config
@@ -172,37 +205,44 @@ function remarkMermaid({ mermaidCli = {} } = {}) {
    * Look for all code nodes that have the language mermaid,
    * and replace them with images with data urls.
    *
-   * @param {Node} tree The Markdown Tree
-   * @param {VFile} file The virtual file.
+   * @param {import("mdast").Root} tree The Markdown Tree
+   * @param {import("vfile").VFile} file The virtual file.
    * @returns {Promise<void>}
    */
   return async function (tree, file) {
+    /** @type {Array<Promise<void>>} */
     const promises = []; // keep track of promises since visit isn't async
 
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const { visit } = await import("unist-util-visit");
     let puppeteerConfigFile = mermaidCli.puppeteerConfigFile ?? {};
-    if (
-      mermaidCli.puppeteerConfigFile &&
-      typeof mermaidCli.puppeteerConfigFile !== "object"
-    ) {
-      puppeteerConfigFile = JSON.parse(
-        await readFile(mermaidCli.puppeteerConfigFile, { encoding: "utf8" })
+    if (typeof puppeteerConfigFile === "string") {
+      puppeteerConfigFile = /** @type {import("puppeteer").LaunchOptions} */ (
+        JSON.parse(await readFile(puppeteerConfigFile, { encoding: "utf8" }))
       );
     }
 
     const browser = await puppeteer.launch(puppeteerConfigFile);
     try {
-      visit(tree, "code", (node, index, parent) => {
+      // @ts-ignore There's some issue with TypeScript here
+      visit(tree, (node, index, parent) => {
         // If this codeblock is not mermaid, bail.
-        if (node.lang !== "mermaid") {
+        if (node.type !== "code" || node.lang !== "mermaid") {
           return node;
         }
         promises.push(
-          transformMermaidNode(node, file, index, parent, {
-            ...options,
-            browser,
-          })
+          transformMermaidNode(
+            node,
+            file,
+            // We know these values are never `null`, since a Code block will
+            // never be the Root of a mdast, so there will always be a Parent
+            /** @type {number} */ (index),
+            /** @type {import("mdast").Parent} */ (parent),
+            {
+              ...options,
+              browser,
+            }
+          )
         );
       });
       await Promise.all(promises);

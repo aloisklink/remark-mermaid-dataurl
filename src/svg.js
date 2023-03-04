@@ -1,4 +1,5 @@
 // returns a window with a document and an svg root node
+// @ts-ignore No `@types/svgdom` exists yet unfortunately
 const { createSVGWindow } = require("svgdom");
 const window = createSVGWindow();
 const document = window.document;
@@ -22,7 +23,12 @@ function validSVG(string) {
   if (svg.node.nodeName !== "svg") {
     // if this is a `<div><svg> ...` return just the SVG.
     if (svg.node.childNodes.length === 1) {
-      return validSVG(svg.node.childNodes[0].outerHTML);
+      const actualSvgElement = svg.node.childNodes[0];
+      if ("outerHTML" in actualSvgElement) {
+        return validSVG(
+          /** @type {Element} */ (svg.node.childNodes[0]).outerHTML
+        );
+      }
     }
     throw new Error(
       `Parsing SVG failed: string seems to be a ${svg.node.nodeName}, not an SVG.`
@@ -55,7 +61,7 @@ function setSvgBbox(svgString) {
     const calculatedWidthInPixels = svg.bbox().width;
     if (calculatedWidthInPixels > 300) {
       // if width is less than 300, let browser default to 300px
-      svg.node.setAttribute("width", calculatedWidthInPixels);
+      svg.node.setAttribute("width", `${calculatedWidthInPixels}`);
       if (!svg.attr("xmlns:svgjs")) {
         // this sometimes doesn't get set automatically
         // (maybe a bug in SVG.js?)

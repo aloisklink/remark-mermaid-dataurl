@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add TypeScript types to `remark-mermaid-dataurl`
+
+### Dependencies
+
+- Add `@types/mdast` and `vfile` as dependencies. We only use these for their
+  types.
+- Updated `@mermaid-js/mermaid-cli` from `^10.0.0` to `^10.0.2` to use the types
+  added by that release.
+
 ## [2.0.7] - 2023-03-05
 
 ### Fixed

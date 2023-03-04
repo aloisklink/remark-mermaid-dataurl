@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "npx eslint test/ index.js",
-    "prepare": "husky install"
+    "prepare": "husky install && tsc"
   },
   "engines": {
     "node": "^14.13 || >=16.0"
@@ -30,13 +30,16 @@
   },
   "homepage": "https://github.com/aloisklink/remark-mermaid-dataurl#readme",
   "dependencies": {
-    "@mermaid-js/mermaid-cli": "^10.0.0",
+    "@mermaid-js/mermaid-cli": "^10.0.2",
     "@svgdotjs/svg.js": "^3.1.2",
+    "@types/mdast": "^3.0.10",
     "puppeteer": "^19.0.0",
     "svgdom": "^0.1.10",
-    "unist-util-visit": "^4.0.0"
+    "unist-util-visit": "^4.0.0",
+    "vfile": "^5.3.7"
   },
   "devDependencies": {
+    "@tsconfig/node14": "^1.0.3",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-node": "^11.1.0",
@@ -50,7 +53,8 @@
     "rehype-document": "^6.0.1",
     "rehype-stringify": "^9.0.3",
     "remark": "^14.0.0",
-    "remark-rehype": "^10.1.0"
+    "remark-rehype": "^10.1.0",
+    "typescript": "^4.9.5"
   },
   "lint-staged": {
     "*.{mjs,cjs,js}": "eslint --cache --fix",
