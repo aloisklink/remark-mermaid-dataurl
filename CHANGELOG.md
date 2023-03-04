@@ -14,6 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   via `mermaid-cli` on `chalk`.
   See [mermaid-js/mermaid-cli@`57781f7`](https://github.com/mermaid-js/mermaid-cli/commit/57781f707a3665121c6cbc1f96fd202c1980db4a).
 
+### Dependencies
+
+- Updated `@mermaid-js/mermaid-cli` from `^9.1.6` to `^10.0.0`,
+  see [mermaid-js/mermaid-cli@10.0.0 release notes](https://github.com/mermaid-js/mermaid-cli/releases/tag/10.0.0)
+  and [mermaid@10.0.0 release notes](https://github.com/mermaid-js/mermaid/releases/tag/v10.0.0).
+
+  It looks like the main breaking changes are to do with Mermaid's API,
+  but there are no breaking changes to `mermaid-cli`, or this package.
+
 ## [2.0.6] - 2022-11-13
 
 ### Fixed
