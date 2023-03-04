@@ -158,7 +158,7 @@ describe("test markdown files", () => {
     async () => {
       await expect(
         testScreenshotSnapshot("test/fixtures/invalid.in.md")
-      ).rejects.toThrow("No diagram type detected for text");
+      ).rejects.toThrow("Evaluation failed: Error: Diagram error not found.");
     },
     timeout
   );
