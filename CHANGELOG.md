@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.7] - 2023-03-05
+
 ### Fixed
 
 - Fix minimum support Node versions to `^14.13 || >=16.0`.
