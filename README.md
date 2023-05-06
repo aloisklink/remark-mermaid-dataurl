@@ -9,12 +9,14 @@ plugin that renders mermaid markdown code into SVG
 [data URLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)
 using [mermaid-cli](https://github.com/mermaid-js/mermaid-cli).
 
-Designed for use with Docusaurus v2.
-
-Alternatives:
-  - If you're using MDX (not plain markdown),
-    [mdx-mermaid](https://github.com/sjwall/mdx-mermaid) renders mermaid
-    on the client's browser, which may offer better network performance.
+> **Note**:
+>
+> This plugin is designed for Markdown to Markdown conversions, where keeping
+> everything in a single file is required. The following plugins are more
+> efficient in the majority of cases:
+>
+> - **Markdown → HTML**: [rehype-mermaidjs](https://github.com/remcohaszing/rehype-mermaidjs)
+> - **Markdown → Markdown with inline HTML**: [remark-mermaidjs](https://github.com/remcohaszing/remark-mermaidjs)
 
 ## Example
 
