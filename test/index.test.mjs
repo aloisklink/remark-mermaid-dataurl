@@ -146,6 +146,29 @@ describe("test markdown files", () => {
   );
 
   test(
+    "should add titles/descriptions from mermaid diagrams",
+    async () => {
+      await renderWithRemark(
+        "test/fixtures/accessibility.in.md",
+        "test/fixtures/accessibility.out.md"
+      );
+
+      const outputMarkdown = await fs.promises.readFile(
+        "test/fixtures/accessibility.out.md",
+        { encoding: "utf8" }
+      );
+
+      // markdown image alt text (used for descriptions for the visually impaired)
+      expect(outputMarkdown).toContain(
+        "![An example of a mermaid flowchart diagram]"
+      );
+      // markdown image title
+      expect(outputMarkdown).toContain('"My super cool mermaid diagram")');
+    },
+    timeout
+  );
+
+  test(
     "should render multiple mermaid diagrams visually",
     async () => {
       await testScreenshotSnapshot("test/fixtures/multiple.in.md");

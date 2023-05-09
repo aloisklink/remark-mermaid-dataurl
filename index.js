@@ -88,33 +88,6 @@ async function convertMermaidKwargsToParseMMDOpts({
 }
 
 /**
- * Calls mmdc (mermaid-cli) with the given keyword args.
- *
- * This function runs `mmdc` in a separate process.
- * Additionally, the separate process has a custom hook function to automatically
- * save/load the mmd input text and SVG output text in a virtual NodeJS `memfs`,
- * so that we don't need access to the file system.
- *
- * @param {{[key: string]: any}} kwargs
- *   Args passed to mmdc in format `--key value`
- * @param {string} input mermaid input file contents
- * @param {puppeteer.Browser} browser Puppeteer browser to use for rendering.
- * @throws {Error} If mmdc fails in anyways.
- * @returns {Promise<string>} Returns the rendered mermaid code as an SVG.
- */
-async function renderMermaidFile(kwargs, input, browser) {
-  // eslint-disable-next-line node/no-unsupported-features/es-syntax, node/no-missing-import
-  const { parseMMD } = await import("@mermaid-js/mermaid-cli");
-  const outputSvg = await parseMMD(
-    browser,
-    input,
-    "svg",
-    await convertMermaidKwargsToParseMMDOpts(kwargs)
-  );
-  return outputSvg.toString("utf8");
-}
-
-/**
  * Converts a string to a base64 string
  *
  * @param {string} string - The string to convert.
@@ -161,7 +134,16 @@ async function transformMermaidNode(
 ) {
   const { lang, value, position } = node;
   try {
-    let svgString = await renderMermaidFile(mermaidCli, value, browser);
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax, node/no-missing-import
+    const { renderMermaid } = await import("@mermaid-js/mermaid-cli");
+    const { title, desc, data } = await renderMermaid(
+      browser,
+      value,
+      "svg",
+      await convertMermaidKwargsToParseMMDOpts(mermaidCli)
+    );
+
+    let svgString = data.toString("utf8");
 
     // attempts to convert the whatever mermaid-cli returned into a valid SVG
     // or throws an error if it can't
@@ -172,9 +154,9 @@ async function transformMermaidNode(
     /** @type {import("mdast").Image} */
     const newNode = {
       type: "image",
-      title: "Diagram generated via mermaid",
+      title: title ?? "Diagram generated via mermaid",
       url: dataUrl(svgString, "image/svg+xml;charset=UTF-8"),
-      alt: "Diagram generated via mermaid",
+      alt: desc ?? "Diagram generated via mermaid",
     };
 
     file.info(`${lang} code block replaced with graph`, position, PLUGIN_NAME);

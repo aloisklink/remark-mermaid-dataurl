@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add TypeScript types to `remark-mermaid-dataurl`
+- Use Mermaid titles/descriptions for the output markdown image's
+  title/alt-text, e.g. like:
+
+  ```markdown
+  ![Mermaid diagram description](data:image/svg+xml;charset=UTF-8,%3Csvg%20id%3D%22mermaid-1654... "Mermaid diagram title")
+  ```
+
+  See https://mermaid.js.org/config/accessibility.html for how to add titles
+  and descriptions to your Mermaid diagrams.
 
 ### Dependencies
 
