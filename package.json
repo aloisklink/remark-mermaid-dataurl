@@ -16,6 +16,7 @@
     "src/",
     "dist-types/"
   ],
+  "types": "./dist-types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aloisklink/remark-mermaid-dataurl.git"
