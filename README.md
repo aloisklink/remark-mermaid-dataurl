@@ -3,6 +3,7 @@
 [![npm version badge](https://img.shields.io/npm/v/remark-mermaid-dataurl)](https://www.npmjs.com/package/remark-mermaid-dataurl)
 [![license badge](https://img.shields.io/npm/l/remark-mermaid-dataurl)](https://www.npmjs.com/package/remark-mermaid-dataurl)
 [![node version support badge](https://img.shields.io/node/v/remark-mermaid-dataurl)](https://www.npmjs.com/package/remark-mermaid-dataurl)
+[![npm type definitions badge](https://img.shields.io/npm/types/remark-mermaid-dataurl)](https://www.npmjs.com/package/remark-mermaid-dataurl)
 
 A [remark markdown](https://github.com/remarkjs/remark)
 plugin that renders mermaid markdown code into SVG
