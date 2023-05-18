@@ -24,7 +24,7 @@ const timeout = 30000; // 30 seconds since mermaid-cli is slow
  *
  * @param {string} inputFileName - Path to input markdown file.
  * @param {string} outputFileName - Path to output markdown file.
- * @param {Parameters<remarkMermaidDataurl>[0]} remarkOptions - Options for
+ * @param {Parameters<typeof remarkMermaidDataurl>[0]} remarkOptions - Options for
  * `remark-data-url`.
  */
 async function renderWithRemark(
@@ -51,7 +51,7 @@ async function renderWithRemark(
  *
  * @param {string} inputFileName - Filename to markdown file to render.
  * @param {object} [opts] - Optional options.
- * @param {Parameters<remarkMermaidDataurl>[0]} [opts.remarkOptions] - Options to pass
+ * @param {Parameters<typeof remarkMermaidDataurl>[0]} [opts.remarkOptions] - Options to pass
  * to `remark-mermaid-dataurl`.
  * @param {array} [opts.css] - Array of CSS options. E.g. `['img.svg { width: 100%; height: auto; }']`
  */
