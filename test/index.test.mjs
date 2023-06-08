@@ -182,7 +182,7 @@ describe("test markdown files", () => {
       await expect(
         testScreenshotSnapshot("test/fixtures/invalid.in.md")
       ).rejects.toThrow(
-        "Evaluation failed: Error: No diagram type detected matching given configuration for text: This is not a valid mermaid code block"
+        "Evaluation failed: UnknownDiagramError: No diagram type detected matching given configuration for text: This is not a valid mermaid code block"
       );
     },
     timeout
