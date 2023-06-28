@@ -41,7 +41,7 @@
     "vfile": "^5.3.7"
   },
   "devDependencies": {
-    "@tsconfig/node14": "^1.0.3",
+    "@tsconfig/node14": "^14.1.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-node": "^11.1.0",
