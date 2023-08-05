@@ -30,7 +30,7 @@ const timeout = 30000; // 30 seconds since mermaid-cli is slow
 async function renderWithRemark(
   inputFileName,
   outputFileName,
-  remarkOptions = {}
+  remarkOptions = {},
 ) {
   const infile = fs.promises.readFile(inputFileName, {
     encoding: "utf8",
@@ -57,7 +57,7 @@ async function renderWithRemark(
  */
 async function testScreenshotSnapshot(
   inputFileName,
-  { remarkOptions = {}, css = [] } = {}
+  { remarkOptions = {}, css = [] } = {},
 ) {
   const infile = fs.promises.readFile(inputFileName, {
     encoding: "utf8",
@@ -93,10 +93,10 @@ describe("test markdown files", () => {
     async () => {
       await renderWithRemark(
         "test/fixtures/basic.in.md",
-        "test/fixtures/basic.out.md"
+        "test/fixtures/basic.out.md",
       );
     },
-    timeout
+    timeout,
   );
 
   test(
@@ -104,7 +104,7 @@ describe("test markdown files", () => {
     async () => {
       await testScreenshotSnapshot("test/fixtures/basic.in.md");
     },
-    timeout
+    timeout,
   );
 
   test(
@@ -112,10 +112,10 @@ describe("test markdown files", () => {
     async () => {
       await renderWithRemark(
         "test/fixtures/gitgraph.in.md",
-        "test/fixtures/gitgraph.out.md"
+        "test/fixtures/gitgraph.out.md",
       );
     },
-    timeout
+    timeout,
   );
 
   test(
@@ -123,7 +123,7 @@ describe("test markdown files", () => {
     async () => {
       await testScreenshotSnapshot("test/fixtures/gitgraph.in.md");
     },
-    timeout
+    timeout,
   );
 
   test(
@@ -131,7 +131,7 @@ describe("test markdown files", () => {
     async () => {
       await testScreenshotSnapshot("test/fixtures/flowchart.in.md");
     },
-    timeout
+    timeout,
   );
 
   test(
@@ -139,10 +139,10 @@ describe("test markdown files", () => {
     async () => {
       await renderWithRemark(
         "test/fixtures/flowchart.in.md",
-        "test/fixtures/flowchart.out.md"
+        "test/fixtures/flowchart.out.md",
       );
     },
-    timeout
+    timeout,
   );
 
   test(
@@ -150,22 +150,22 @@ describe("test markdown files", () => {
     async () => {
       await renderWithRemark(
         "test/fixtures/accessibility.in.md",
-        "test/fixtures/accessibility.out.md"
+        "test/fixtures/accessibility.out.md",
       );
 
       const outputMarkdown = await fs.promises.readFile(
         "test/fixtures/accessibility.out.md",
-        { encoding: "utf8" }
+        { encoding: "utf8" },
       );
 
       // markdown image alt text (used for descriptions for the visually impaired)
       expect(outputMarkdown).toContain(
-        "![An example of a mermaid flowchart diagram]"
+        "![An example of a mermaid flowchart diagram]",
       );
       // markdown image title
       expect(outputMarkdown).toContain('"My super cool mermaid diagram")');
     },
-    timeout
+    timeout,
   );
 
   test(
@@ -173,19 +173,19 @@ describe("test markdown files", () => {
     async () => {
       await testScreenshotSnapshot("test/fixtures/multiple.in.md");
     },
-    timeout
+    timeout,
   );
 
   test(
     "should fail to render invalid mermaid visually",
     async () => {
       await expect(
-        testScreenshotSnapshot("test/fixtures/invalid.in.md")
+        testScreenshotSnapshot("test/fixtures/invalid.in.md"),
       ).rejects.toThrow(
-        "Evaluation failed: UnknownDiagramError: No diagram type detected matching given configuration for text: This is not a valid mermaid code block"
+        "Evaluation failed: UnknownDiagramError: No diagram type detected matching given configuration for text: This is not a valid mermaid code block",
       );
     },
-    timeout
+    timeout,
   );
 
   test(
@@ -201,11 +201,11 @@ describe("test markdown files", () => {
                 timeout: 1, // should fail
               },
             },
-          }
-        )
+          },
+        ),
       ).rejects.toThrow("Timed out");
     },
-    timeout
+    timeout,
   );
 
   test(
@@ -221,7 +221,7 @@ describe("test markdown files", () => {
         },
       });
     },
-    timeout
+    timeout,
   );
 
   test(
@@ -235,6 +235,6 @@ describe("test markdown files", () => {
         },
       });
     },
-    timeout
+    timeout,
   );
 });

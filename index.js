@@ -130,7 +130,7 @@ async function transformMermaidNode(
   file,
   index,
   parent,
-  { mermaidCli, browser }
+  { mermaidCli, browser },
 ) {
   const { lang, value, position } = node;
   try {
@@ -140,7 +140,7 @@ async function transformMermaidNode(
       browser,
       value,
       "svg",
-      await convertMermaidKwargsToParseMMDOpts(mermaidCli)
+      await convertMermaidKwargsToParseMMDOpts(mermaidCli),
     );
 
     let svgString = data.toString("utf8");
@@ -223,8 +223,8 @@ function remarkMermaid({ mermaidCli = {} } = {}) {
             {
               ...options,
               browser,
-            }
-          )
+            },
+          ),
         );
       });
       await Promise.all(promises);

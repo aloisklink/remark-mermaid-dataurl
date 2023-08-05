@@ -12,7 +12,7 @@ module.exports = {
   // work around for https://github.com/nodejs/node/issues/35889#issuecomment-1129293091
   runner: "jest-light-runner",
   // from https://github.com/chalk/chalk/issues/532
-  "moduleNameMapper": {
-    "#(.*)": "<rootDir>/node_modules/$1"
+  moduleNameMapper: {
+    "#(.*)": "<rootDir>/node_modules/$1",
   },
 };

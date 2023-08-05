@@ -26,12 +26,12 @@ function validSVG(string) {
       const actualSvgElement = svg.node.childNodes[0];
       if ("outerHTML" in actualSvgElement) {
         return validSVG(
-          /** @type {Element} */ (svg.node.childNodes[0]).outerHTML
+          /** @type {Element} */ (svg.node.childNodes[0]).outerHTML,
         );
       }
     }
     throw new Error(
-      `Parsing SVG failed: string seems to be a ${svg.node.nodeName}, not an SVG.`
+      `Parsing SVG failed: string seems to be a ${svg.node.nodeName}, not an SVG.`,
     );
   }
   return string;

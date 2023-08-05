@@ -44,11 +44,11 @@ code as a
 [dataurl](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)
 (dataurl is truncated in the example, as they are quite large):
 
-````markdown
+```markdown
 Here is my **example** mermaid diagram in markdown:
 
 ![Diagram generated via mermaid](data:image/svg+xml;charset=UTF-8,%3Csvg%20id%3D%22mermaid-1654...]
-````
+```
 
 ## Options
 
