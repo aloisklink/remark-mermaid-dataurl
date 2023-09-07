@@ -26,8 +26,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
       - name: Update NPM
-        # we use package-lock.json v2, which doesn't work well in NPM 6
-        run: npm install -g npm@latest
+        # NPM 10 drops Node.JS v14 support
+        run: npm install -g npm@9
       - name: Install NPM Packages
         run: npm ci
       - name: Lint
