@@ -34,7 +34,7 @@
   "dependencies": {
     "@mermaid-js/mermaid-cli": "^10.0.2",
     "@svgdotjs/svg.js": "^3.1.2",
-    "@types/mdast": "^3.0.10",
+    "@types/mdast": "^4.0.1",
     "puppeteer": "^19.0.0",
     "svgdom": "^0.1.10",
     "unist-util-visit": "^4.0.0",
