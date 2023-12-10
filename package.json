@@ -37,7 +37,7 @@
     "@types/mdast": "^3.0.10",
     "puppeteer": "^19.0.0",
     "svgdom": "^0.1.10",
-    "unist-util-visit": "^4.0.0",
+    "unist-util-visit": "^5.0.0",
     "vfile": "^5.3.7"
   },
   "devDependencies": {
