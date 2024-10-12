@@ -9,7 +9,7 @@
     "prepare": "husky install && tsc"
   },
   "engines": {
-    "node": "^14.13 || >=16.0"
+    "node": "^18.19 || >=20.0"
   },
   "files": [
     "index.js",
@@ -41,7 +41,7 @@
     "vfile": "^5.3.7"
   },
   "devDependencies": {
-    "@tsconfig/node14": "^14.1.0",
+    "@tsconfig/node18": "^18.0.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-node": "^11.1.0",
