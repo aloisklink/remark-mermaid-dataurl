@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### BREAKING CHANGES
 
 - Bump required Node.JS version to 18.19
+- Updated `@mermaid-js/mermaid-cli` to `^11`
+
+### Dependencies
+
+- Updated `puppeteer` to `^23`
 
 ## [2.1.1] - 2023-05-11
 

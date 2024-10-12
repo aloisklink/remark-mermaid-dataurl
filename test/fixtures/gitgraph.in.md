@@ -3,13 +3,13 @@
 Here is an experimental example of using git graph
 
 ```mermaid
-gitGraph:
-options
-{
-    "nodeSpacing": 150,
-    "nodeRadius": 10
-}
-end
+---
+config:
+    gitGraph:
+        nodeSpacing: 150
+        nodeRadius: 10
+---
+gitGraph
 commit
 branch newbranch
 checkout newbranch

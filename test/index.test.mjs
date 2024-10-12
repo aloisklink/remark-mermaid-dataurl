@@ -77,7 +77,7 @@ async function testScreenshotSnapshot(
   await page.setContent(htmlFile);
   const screenshot = await page.screenshot();
   await browser.close();
-  expect(screenshot).toMatchImageSnapshot({
+  expect(Buffer.from(screenshot)).toMatchImageSnapshot({
     // only enable inline diff for GitHub Actions or CI
     // if it's on a local PC, we can just open up the file
     dumpInlineDiffToConsole: process.env["CI"],
@@ -182,7 +182,7 @@ describe("test markdown files", () => {
       await expect(
         testScreenshotSnapshot("test/fixtures/invalid.in.md"),
       ).rejects.toThrow(
-        "Evaluation failed: UnknownDiagramError: No diagram type detected matching given configuration for text: This is not a valid mermaid code block",
+        "No diagram type detected matching given configuration for text: This is not a valid mermaid code block",
       );
     },
     timeout,

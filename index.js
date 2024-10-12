@@ -143,7 +143,7 @@ async function transformMermaidNode(
       await convertMermaidKwargsToParseMMDOpts(mermaidCli),
     );
 
-    let svgString = data.toString("utf8");
+    let svgString = new TextDecoder().decode(data);
 
     // attempts to convert the whatever mermaid-cli returned into a valid SVG
     // or throws an error if it can't
