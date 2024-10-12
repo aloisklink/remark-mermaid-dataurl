@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Dependencies
 
 - Updated `puppeteer` to `^23`
+- Updated `unist-util-visit` to `^5`
+- Updated `vfile` to `^6`
 
 ## [2.1.1] - 2023-05-11
 

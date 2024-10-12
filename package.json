@@ -34,11 +34,11 @@
   "dependencies": {
     "@mermaid-js/mermaid-cli": "^11.0.0",
     "@svgdotjs/svg.js": "^3.1.2",
-    "@types/mdast": "^3.0.10",
+    "@types/mdast": "^4.0.0",
     "puppeteer": "^23.5.3",
     "svgdom": "^0.1.10",
-    "unist-util-visit": "^4.0.0",
-    "vfile": "^5.3.7"
+    "unist-util-visit": "^5.0.0",
+    "vfile": "^6.0.0"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.0.0",
@@ -52,10 +52,10 @@
     "jest-light-runner": "^0.5.0",
     "lint-staged": "^14.0.0",
     "prettier": "^3.0.1",
-    "rehype-document": "^6.0.1",
-    "rehype-stringify": "^9.0.3",
-    "remark": "^14.0.0",
-    "remark-rehype": "^10.1.0",
+    "rehype-document": "^7.0.0",
+    "rehype-stringify": "^10.0.0",
+    "remark": "^15.0.0",
+    "remark-rehype": "^11.0.0",
     "typescript": "^5.0.2"
   },
   "lint-staged": {

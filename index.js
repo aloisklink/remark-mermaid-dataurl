@@ -163,8 +163,8 @@ async function transformMermaidNode(
     // replace old node with current node
     parent.children[index] = newNode;
   } catch (error) {
-    const errorOrString = error instanceof Error ? error : `${error}`;
-    file.fail(errorOrString, position, PLUGIN_NAME);
+    const errorError = error instanceof Error ? error : new Error(`${error}`);
+    file.fail(errorError, position, PLUGIN_NAME);
   }
 }
 
