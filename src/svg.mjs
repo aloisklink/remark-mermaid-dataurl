@@ -1,9 +1,10 @@
 // returns a window with a document and an svg root node
 // @ts-ignore No `@types/svgdom` exists yet unfortunately
-const { createSVGWindow } = require("svgdom");
+import { createSVGWindow } from "svgdom";
+import { SVG, registerWindow, namespaces } from "@svgdotjs/svg.js";
+
 const window = createSVGWindow();
 const document = window.document;
-const { SVG, registerWindow, namespaces } = require("@svgdotjs/svg.js");
 
 // register window and document
 registerWindow(window, document);
@@ -18,7 +19,7 @@ registerWindow(window, document);
  * @throws {Error} Throws an error if the input string could not be converted to an `<svg`.
  * @returns {string} An SVG string starting with `<svg`.
  */
-function validSVG(string) {
+export function validSVG(string) {
   const svg = SVG(string);
   if (svg.node.nodeName !== "svg") {
     // if this is a `<div><svg> ...` return just the SVG.
@@ -54,7 +55,7 @@ function validSVG(string) {
  * @param {string} svgString - The SVG in string format.
  * @returns {string} The SVG, with a potentially edited width value.
  */
-function setSvgBbox(svgString) {
+export function setSvgBbox(svgString) {
   const svg = SVG(svgString);
 
   if (svg.node.getAttribute("width") === "100%") {
@@ -73,5 +74,3 @@ function setSvgBbox(svgString) {
 
   return svgString;
 }
-
-module.exports = { setSvgBbox, validSVG };

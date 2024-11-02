@@ -1,8 +1,6 @@
 const { readFile } = require("fs/promises");
 const puppeteer = require("puppeteer");
 
-const { setSvgBbox, validSVG } = require("./src/svg.js");
-
 const PLUGIN_NAME = "remark-mermaid-dataurl";
 
 /**
@@ -136,6 +134,8 @@ async function transformMermaidNode(
   try {
     // eslint-disable-next-line node/no-unsupported-features/es-syntax, node/no-missing-import
     const { renderMermaid } = await import("@mermaid-js/mermaid-cli");
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const { setSvgBbox, validSVG } = await import("./src/svg.mjs");
     const { title, desc, data } = await renderMermaid(
       browser,
       value,
