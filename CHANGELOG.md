@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Support svgdom 0.1.17 or later.
+
 ## [3.0.0] - 2024-10-13
 
 ### BREAKING CHANGES
