@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "npx eslint test/ index.js",
-    "prepare": "husky install && tsc"
+    "prepare": "husky && tsc"
   },
   "engines": {
     "node": "^18.19 || >=20.0"
