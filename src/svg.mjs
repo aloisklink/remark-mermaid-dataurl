@@ -1,11 +1,9 @@
-// returns a window with a document and an svg root node
-// @ts-ignore No `@types/svgdom` exists yet unfortunately
 import { createSVGWindow } from "svgdom";
 import { SVG, registerWindow, namespaces } from "@svgdotjs/svg.js";
 
+// returns a window with a document and an svg root node
 const window = createSVGWindow();
 const document = window.document;
-
 // register window and document
 registerWindow(window, document);
 
