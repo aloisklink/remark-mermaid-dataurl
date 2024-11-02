@@ -132,9 +132,7 @@ async function transformMermaidNode(
 ) {
   const { lang, value, position } = node;
   try {
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax, node/no-missing-import
     const { renderMermaid } = await import("@mermaid-js/mermaid-cli");
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const { setSvgBbox, validSVG } = await import("./src/svg.mjs");
     const { title, desc, data } = await renderMermaid(
       browser,
@@ -195,7 +193,6 @@ function remarkMermaid({ mermaidCli = {} } = {}) {
     /** @type {Array<Promise<void>>} */
     const promises = []; // keep track of promises since visit isn't async
 
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const { visit } = await import("unist-util-visit");
     let puppeteerConfigFile = mermaidCli.puppeteerConfigFile ?? {};
     if (typeof puppeteerConfigFile === "string") {
