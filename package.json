@@ -52,7 +52,7 @@
     "jest": "^29.3.1",
     "jest-image-snapshot": "^6.0.0",
     "jest-light-runner": "^0.6.0",
-    "lint-staged": "^14.0.0",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.0.1",
     "rehype-document": "^7.0.0",
     "rehype-stringify": "^10.0.0",
