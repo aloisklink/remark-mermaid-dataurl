@@ -33,4 +33,5 @@ jobs:
       - name: Lint
         run: npm run lint
       - name: Test
-        run: npm test
+        # Ubuntu 24.04 default AppArmor policy breaks chrome's sandbox
+        run: aa-exec --profile=chrome npm test
